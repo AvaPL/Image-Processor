@@ -26,7 +26,7 @@ void PbmImage::CheckFormat(ifstream& sourceFile) const
 {
 	string buffer;
 	getline(sourceFile, buffer);
-	if (buffer != "P1") 
+	if (buffer != "P1")
 		sourceFile.setstate(std::ios::badbit);
 }
 
