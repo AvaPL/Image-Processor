@@ -40,7 +40,7 @@ void PbmImage::LoadComments(ifstream& sourceFile)
 	}
 }
 
-void PbmImage::LoadBitmap(ifstream& sourceFile)
+void PbmImage::LoadBitmap(ifstream& sourceFile) //TODO: Add a method to check if values are 0/1.
 {
 	bitmap = vector<vector<char>>(width, vector<char>(height));
 	for (auto i = 0; i < width; ++i)
@@ -50,7 +50,7 @@ void PbmImage::LoadBitmap(ifstream& sourceFile)
 		}
 }
 
-void PbmImage::Save(const string& targetFilename) //TODO: Add method to check if file already exists.
+void PbmImage::Save(const string& targetFilename) //TODO: Add a method to check if file already exists.
 {
 	ofstream targetFile(targetFilename);
 	targetFile.exceptions(std::ios::failbit | std::ios::badbit);

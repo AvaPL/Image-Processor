@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PbmImage.cpp" />
+    <ClCompile Include="src\PgmImage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\PbmImage.h" />
+    <ClInclude Include="inc\PgmImage.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

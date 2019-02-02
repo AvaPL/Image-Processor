@@ -5,15 +5,17 @@ using std::vector;
 using std::string;
 using std::ofstream;
 
-class PbmImage
+class PgmImage
 {
 	int width;
 	int height;
-	vector<vector<char>> bitmap;
+	unsigned short maxGrayValue;
+	vector<vector<unsigned short>> graymap;
 	vector<string> comments;
 
 public:
-	PbmImage() : width(), height() //TODO: Make the constructor private.
+	PgmImage() : width(), height(), maxGrayValue()
+	//TODO: Make the constructor private.
 	{
 	};
 	void Load(const string& sourceFilename);
@@ -23,9 +25,9 @@ private:
 	void LoadHeader(std::ifstream& sourceFile);
 	void CheckFormat(std::ifstream& sourceFile) const;
 	void LoadComments(std::ifstream& sourceFile);
-	void LoadBitmap(std::ifstream& sourceFile);
+	void LoadGraymap(std::ifstream& sourceFile);
 
 	void SaveHeader(ofstream& targetFile);
 	void SaveComments(ofstream& targetFile);
-	void SaveBitmap(ofstream& targetFile);
+	void SaveGraymap(ofstream& targetFile);
 };

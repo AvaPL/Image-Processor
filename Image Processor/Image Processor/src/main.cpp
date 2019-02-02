@@ -1,15 +1,16 @@
 #include <string>
 #include "../inc/PbmImage.h"
+#include "../inc/PgmImage.h"
 
 int main(int argc, char* argv[])
 {
 	using std::string;
 
-	PbmImage image;
+	PgmImage image;
 
-	const string sourceFilename = "../Example Images/kubus.pbm";
+	const string sourceFilename = "../Example Images/kubus.pgm";
 	image.Load(sourceFilename);
 
-	const string targetFilename = "../Example Images/test.pbm";
+	const string targetFilename = "../Example Images/test.pgm";
 	image.Save(targetFilename);
 }
