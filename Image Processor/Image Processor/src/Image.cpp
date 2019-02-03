@@ -1,13 +1,9 @@
+#include <utility>
 #include "../inc/Image.h"
 
-void Image::LoadComments(std::ifstream& sourceFile)
+Image::Image(std::vector<string> comments, const int width, const int height) : width(width),
+                                                                                height(height), comments(std::move(comments))
 {
-	string buffer;
-	while (sourceFile.peek() == '#')
-	{
-		getline(sourceFile, buffer);
-		comments.push_back(buffer);
-	}
 }
 
 void Image::SaveComments(std::ofstream& targetFile)

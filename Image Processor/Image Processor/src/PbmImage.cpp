@@ -1,53 +1,17 @@
 #include "../inc/PbmImage.h"
 #include <fstream>
 #include <string>
+#include <utility>
 
 using std::string;
 using std::ifstream;
 using std::ofstream;
 using std::getline;
 
-void PbmImage::Load(const string& sourceFilename)
+PbmImage::PbmImage(const vector<string>& comments, const int width, const int height, vector<vector<char>> bitmap):
+	Image(comments, width, height),
+	bitmap(std::move(bitmap))
 {
-	ifstream sourceFile(sourceFilename);
-	sourceFile.exceptions(std::ios::failbit | std::ios::badbit);
-	LoadHeader(sourceFile);
-	LoadPixels(sourceFile);
-}
-
-void PbmImage::LoadHeader(ifstream& sourceFile)
-{
-	CheckFormat(sourceFile);
-	LoadComments(sourceFile);
-	sourceFile >> width >> height;
-}
-
-void PbmImage::CheckFormat(ifstream& sourceFile) const
-{
-	string buffer;
-	getline(sourceFile, buffer);
-	if (buffer != "P1")
-		sourceFile.setstate(std::ios::badbit);
-}
-
-// void PbmImage::LoadComments(ifstream& sourceFile)
-// {
-// 	string buffer;
-// 	while (sourceFile.peek() == '#')
-// 	{
-// 		getline(sourceFile, buffer);
-// 		comments.push_back(buffer);
-// 	}
-// }
-
-void PbmImage::LoadPixels(ifstream& sourceFile)
-{
-	bitmap = vector<vector<char>>(width, vector<char>(height));
-	for (auto i = 0; i < width; ++i)
-		for (auto j = 0; j < height; ++j)
-		{
-			sourceFile >> bitmap.at(i).at(j);
-		}
 }
 
 void PbmImage::Save(const string& targetFilename) //TODO: Add a method to check if file already exists.
@@ -64,14 +28,6 @@ void PbmImage::SaveHeader(ofstream& targetFile)
 	SaveComments(targetFile);
 	targetFile << width << ' ' << height << "\n";
 }
-
-// void PbmImage::SaveComments(ofstream& targetFile)
-// {
-// 	for (const auto& element : comments)
-// 	{
-// 		targetFile << element << '\n';
-// 	}
-// }
 
 void PbmImage::SavePixels(ofstream& targetFile)
 {
