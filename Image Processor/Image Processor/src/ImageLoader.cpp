@@ -9,17 +9,12 @@ ImageLoader::ImageLoader()
 
 shared_ptr<Image> ImageLoader::Load(const string& sourceFilename)
 {
-	this->sourceFilename = sourceFilename;
-	OpenNewFile();
-	return LoadByFormat();
+	sourceFile.open(sourceFilename);
+	shared_ptr<Image> image = LoadByFormat();
+	sourceFile.close();
+	return image;
 }
 
-void ImageLoader::OpenNewFile()
-{
-	if (sourceFile.is_open())
-		sourceFile.close();
-	sourceFile.open(sourceFilename);
-}
 
 shared_ptr<Image> ImageLoader::LoadByFormat()
 {

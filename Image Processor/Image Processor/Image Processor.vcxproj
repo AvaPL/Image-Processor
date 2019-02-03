@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\Image.cpp" />
     <ClCompile Include="src\ImageLoader.cpp" />
+    <ClCompile Include="src\ImageSaver.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PbmImage.cpp" />
     <ClCompile Include="src\PgmImage.cpp" />
@@ -28,9 +29,11 @@
     <ClCompile Include="src\RgbPixel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\Format.h" />
     <ClInclude Include="inc\Image.h" />
     <ClInclude Include="inc\ImageHeader.h" />
     <ClInclude Include="inc\ImageLoader.h" />
+    <ClInclude Include="inc\ImageSaver.h" />
     <ClInclude Include="inc\PbmImage.h" />
     <ClInclude Include="inc\PgmImage.h" />
     <ClInclude Include="inc\PpmImage.h" />

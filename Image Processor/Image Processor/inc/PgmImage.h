@@ -3,8 +3,6 @@
 #include "Image.h"
 
 using std::vector;
-using std::string;
-using std::ofstream;
 
 class PgmImage : public Image
 {
@@ -12,9 +10,5 @@ class PgmImage : public Image
 
 public:
 	PgmImage(const ImageHeader& header, vector<vector<unsigned short>> graymap);
-	void Save(const string& targetFilename) override;
-
-private:
-	void SaveHeader(ofstream& targetFile) override;
-	void SavePixels(ofstream& targetFile) override;
+	const vector<vector<unsigned short>>& GetPixels() const { return graymap; }
 };

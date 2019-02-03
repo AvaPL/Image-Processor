@@ -11,7 +11,6 @@ using std::shared_ptr;
 
 class ImageLoader
 {
-	string sourceFilename;
 	std::ifstream sourceFile;
 
 public:
@@ -19,7 +18,6 @@ public:
 	shared_ptr<Image> Load(const string& sourceFilename);
 
 private:
-	void OpenNewFile();
 	shared_ptr<Image> LoadByFormat();
 	shared_ptr<PbmImage> LoadPbm();
 	shared_ptr<PgmImage> LoadPgm();
