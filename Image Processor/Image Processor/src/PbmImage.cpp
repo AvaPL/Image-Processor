@@ -12,7 +12,7 @@ void PbmImage::Load(const string& sourceFilename)
 	ifstream sourceFile(sourceFilename);
 	sourceFile.exceptions(std::ios::failbit | std::ios::badbit);
 	LoadHeader(sourceFile);
-	LoadBitmap(sourceFile);
+	LoadPixels(sourceFile);
 }
 
 void PbmImage::LoadHeader(ifstream& sourceFile)
@@ -40,7 +40,7 @@ void PbmImage::CheckFormat(ifstream& sourceFile) const
 // 	}
 // }
 
-void PbmImage::LoadBitmap(ifstream& sourceFile)
+void PbmImage::LoadPixels(ifstream& sourceFile)
 {
 	bitmap = vector<vector<char>>(width, vector<char>(height));
 	for (auto i = 0; i < width; ++i)
@@ -55,7 +55,7 @@ void PbmImage::Save(const string& targetFilename) //TODO: Add a method to check 
 	ofstream targetFile(targetFilename);
 	targetFile.exceptions(std::ios::failbit | std::ios::badbit);
 	SaveHeader(targetFile);
-	SaveBitmap(targetFile);
+	SavePixels(targetFile);
 }
 
 void PbmImage::SaveHeader(ofstream& targetFile)
@@ -73,7 +73,7 @@ void PbmImage::SaveHeader(ofstream& targetFile)
 // 	}
 // }
 
-void PbmImage::SaveBitmap(ofstream& targetFile)
+void PbmImage::SavePixels(ofstream& targetFile)
 {
 	for (auto i = 0; i < width; ++i)
 	{

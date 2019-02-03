@@ -14,9 +14,14 @@ protected:
 	int height;
 	std::vector<string> comments;
 
+	virtual void LoadHeader(std::ifstream& sourceFile) = 0;
+	virtual void CheckFormat(std::ifstream& sourceFile) const = 0;
 	virtual void LoadComments(std::ifstream& sourceFile);
-	virtual void SaveComments(std::ofstream& targetFile);
+	virtual void LoadPixels(std::ifstream& sourceFile) = 0;
 
+	virtual void SaveHeader(std::ofstream& targetFile) = 0;
+	virtual void SaveComments(std::ofstream& targetFile);
+	virtual void SavePixels(std::ofstream& targetFile) = 0;
 public:
 	virtual ~Image() = default;
 

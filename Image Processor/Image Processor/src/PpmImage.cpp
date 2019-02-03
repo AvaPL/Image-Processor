@@ -13,7 +13,7 @@ void PpmImage::Load(const string& sourceFilename)
 	ifstream sourceFile(sourceFilename);
 	sourceFile.exceptions(std::ios::failbit | std::ios::badbit);
 	LoadHeader(sourceFile);
-	LoadColormap(sourceFile);
+	LoadPixels(sourceFile);
 }
 
 void PpmImage::LoadHeader(ifstream& sourceFile)
@@ -41,7 +41,7 @@ void PpmImage::CheckFormat(ifstream& sourceFile) const
 // 	}
 // }
 
-void PpmImage::LoadColormap(ifstream& sourceFile) //TODO: Add a method to check if values are lower than maxColorValue.
+void PpmImage::LoadPixels(ifstream& sourceFile) //TODO: Add a method to check if values are lower than maxColorValue.
 {
 	colormap = vector<vector<RgbPixel>>(width, vector<RgbPixel>(height));
 	for (auto i = 0; i < width; ++i)
@@ -56,7 +56,7 @@ void PpmImage::Save(const string& targetFilename) //TODO: Add a method to check 
 	ofstream targetFile(targetFilename);
 	targetFile.exceptions(std::ios::failbit | std::ios::badbit);
 	SaveHeader(targetFile);
-	SaveColormap(targetFile);
+	SavePixels(targetFile);
 }
 
 void PpmImage::SaveHeader(ofstream& targetFile)
@@ -74,7 +74,7 @@ void PpmImage::SaveHeader(ofstream& targetFile)
 // 	}
 // }
 
-void PpmImage::SaveColormap(ofstream& targetFile)
+void PpmImage::SavePixels(ofstream& targetFile)
 {
 	for (auto i = 0; i < width; ++i)
 	{

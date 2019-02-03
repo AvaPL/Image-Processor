@@ -12,7 +12,7 @@ void PgmImage::Load(const string& sourceFilename)
 	ifstream sourceFile(sourceFilename);
 	sourceFile.exceptions(std::ios::failbit | std::ios::badbit);
 	LoadHeader(sourceFile);
-	LoadGraymap(sourceFile);
+	LoadPixels(sourceFile);
 }
 
 void PgmImage::LoadHeader(ifstream& sourceFile)
@@ -40,7 +40,7 @@ void PgmImage::CheckFormat(ifstream& sourceFile) const
 // 	}
 // }
 
-void PgmImage::LoadGraymap(ifstream& sourceFile) //TODO: Add a method to check if values are lower than maxGrayValue.
+void PgmImage::LoadPixels(ifstream& sourceFile) //TODO: Add a method to check if values are lower than maxGrayValue.
 {
 	graymap = vector<vector<unsigned short>>(width, vector<unsigned short>(height));
 	for (auto i = 0; i < width; ++i)
@@ -55,7 +55,7 @@ void PgmImage::Save(const string& targetFilename) //TODO: Add a method to check 
 	ofstream targetFile(targetFilename);
 	targetFile.exceptions(std::ios::failbit | std::ios::badbit);
 	SaveHeader(targetFile);
-	SaveGraymap(targetFile);
+	SavePixels(targetFile);
 }
 
 void PgmImage::SaveHeader(ofstream& targetFile)
@@ -73,7 +73,7 @@ void PgmImage::SaveHeader(ofstream& targetFile)
 // 	}
 // }
 
-void PgmImage::SaveGraymap(ofstream& targetFile)
+void PgmImage::SavePixels(ofstream& targetFile)
 {
 	for (auto i = 0; i < width; ++i)
 	{

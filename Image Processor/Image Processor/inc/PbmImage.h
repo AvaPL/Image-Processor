@@ -15,10 +15,10 @@ public:
 	void Save(const string& targetFilename) override;
 
 private:
-	void LoadHeader(std::ifstream& sourceFile);
-	void CheckFormat(std::ifstream& sourceFile) const;
-	void LoadBitmap(std::ifstream& sourceFile);
+	void LoadHeader(std::ifstream& sourceFile) override;
+	void CheckFormat(std::ifstream& sourceFile) const override;
+	void LoadPixels(std::ifstream& sourceFile) override;
 
-	void SaveHeader(ofstream& targetFile);
-	void SaveBitmap(ofstream& targetFile);
+	void SaveHeader(ofstream& targetFile) override;
+	void SavePixels(ofstream& targetFile) override;
 };
