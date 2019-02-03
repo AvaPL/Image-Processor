@@ -30,15 +30,15 @@ void PgmImage::CheckFormat(ifstream& sourceFile) const
 		sourceFile.setstate(std::ios::badbit);
 }
 
-void PgmImage::LoadComments(ifstream& sourceFile)
-{
-	string buffer;
-	while (sourceFile.peek() == '#')
-	{
-		getline(sourceFile, buffer);
-		comments.push_back(buffer);
-	}
-}
+// void PgmImage::LoadComments(ifstream& sourceFile)
+// {
+// 	string buffer;
+// 	while (sourceFile.peek() == '#')
+// 	{
+// 		getline(sourceFile, buffer);
+// 		comments.push_back(buffer);
+// 	}
+// }
 
 void PgmImage::LoadGraymap(ifstream& sourceFile) //TODO: Add a method to check if values are lower than maxGrayValue.
 {
@@ -65,13 +65,13 @@ void PgmImage::SaveHeader(ofstream& targetFile)
 	targetFile << width << ' ' << height << '\n' << maxGrayValue << "\n";
 }
 
-void PgmImage::SaveComments(ofstream& targetFile)
-{
-	for (const auto& element : comments)
-	{
-		targetFile << element << '\n';
-	}
-}
+// void PgmImage::SaveComments(ofstream& targetFile)
+// {
+// 	for (const auto& element : comments)
+// 	{
+// 		targetFile << element << '\n';
+// 	}
+// }
 
 void PgmImage::SaveGraymap(ofstream& targetFile)
 {

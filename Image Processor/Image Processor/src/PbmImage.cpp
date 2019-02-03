@@ -30,17 +30,17 @@ void PbmImage::CheckFormat(ifstream& sourceFile) const
 		sourceFile.setstate(std::ios::badbit);
 }
 
-void PbmImage::LoadComments(ifstream& sourceFile)
-{
-	string buffer;
-	while (sourceFile.peek() == '#')
-	{
-		getline(sourceFile, buffer);
-		comments.push_back(buffer);
-	}
-}
+// void PbmImage::LoadComments(ifstream& sourceFile)
+// {
+// 	string buffer;
+// 	while (sourceFile.peek() == '#')
+// 	{
+// 		getline(sourceFile, buffer);
+// 		comments.push_back(buffer);
+// 	}
+// }
 
-void PbmImage::LoadBitmap(ifstream& sourceFile) //TODO: Add a method to check if values are 0/1.
+void PbmImage::LoadBitmap(ifstream& sourceFile)
 {
 	bitmap = vector<vector<char>>(width, vector<char>(height));
 	for (auto i = 0; i < width; ++i)
@@ -65,13 +65,13 @@ void PbmImage::SaveHeader(ofstream& targetFile)
 	targetFile << width << ' ' << height << "\n";
 }
 
-void PbmImage::SaveComments(ofstream& targetFile)
-{
-	for (const auto& element : comments)
-	{
-		targetFile << element << '\n';
-	}
-}
+// void PbmImage::SaveComments(ofstream& targetFile)
+// {
+// 	for (const auto& element : comments)
+// 	{
+// 		targetFile << element << '\n';
+// 	}
+// }
 
 void PbmImage::SaveBitmap(ofstream& targetFile)
 {

@@ -31,15 +31,15 @@ void PpmImage::CheckFormat(ifstream& sourceFile) const
 		sourceFile.setstate(std::ios::badbit);
 }
 
-void PpmImage::LoadComments(ifstream& sourceFile)
-{
-	string buffer;
-	while (sourceFile.peek() == '#')
-	{
-		getline(sourceFile, buffer);
-		comments.push_back(buffer);
-	}
-}
+// void PpmImage::LoadComments(ifstream& sourceFile)
+// {
+// 	string buffer;
+// 	while (sourceFile.peek() == '#')
+// 	{
+// 		getline(sourceFile, buffer);
+// 		comments.push_back(buffer);
+// 	}
+// }
 
 void PpmImage::LoadColormap(ifstream& sourceFile) //TODO: Add a method to check if values are lower than maxColorValue.
 {
@@ -66,13 +66,13 @@ void PpmImage::SaveHeader(ofstream& targetFile)
 	targetFile << width << ' ' << height << '\n' << maxColorValue << "\n";
 }
 
-void PpmImage::SaveComments(ofstream& targetFile)
-{
-	for (const auto& element : comments)
-	{
-		targetFile << element << '\n';
-	}
-}
+// void PpmImage::SaveComments(ofstream& targetFile)
+// {
+// 	for (const auto& element : comments)
+// 	{
+// 		targetFile << element << '\n';
+// 	}
+// }
 
 void PpmImage::SaveColormap(ofstream& targetFile)
 {
