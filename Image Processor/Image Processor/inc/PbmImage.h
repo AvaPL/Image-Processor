@@ -11,7 +11,7 @@ class PbmImage : public Image
 	vector<vector<char>> bitmap;
 
 public:
-	PbmImage(const vector<string>& comments, int width, int height, vector<vector<char>> bitmap);
+	PbmImage(const ImageHeader& header, vector<vector<char>> bitmap);
 	void Save(const string& targetFilename) override;
 
 private:

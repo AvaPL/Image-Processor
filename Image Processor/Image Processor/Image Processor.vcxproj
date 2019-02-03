@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Image.h" />
+    <ClInclude Include="inc\ImageHeader.h" />
     <ClInclude Include="inc\ImageLoader.h" />
     <ClInclude Include="inc\PbmImage.h" />
     <ClInclude Include="inc\PgmImage.h" />

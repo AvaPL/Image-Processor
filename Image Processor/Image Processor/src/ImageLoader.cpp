@@ -40,28 +40,29 @@ shared_ptr<Image> ImageLoader::LoadByFormat()
 
 shared_ptr<PbmImage> ImageLoader::LoadPbm()
 {
-	comments = LoadComments();
-	sourceFile >> width >> height;
-	auto pixels = LoadPixels<char>();
-	return std::make_shared<PbmImage>(comments, width, height, pixels);
+	ImageHeader header;
+	header.comments = LoadComments();
+	sourceFile >> header.width >> header.height;
+	auto pixels = LoadPixels<char>(header);
+	return std::make_shared<PbmImage>(header, pixels);
 }
 
 shared_ptr<PgmImage> ImageLoader::LoadPgm()
 {
-	comments = LoadComments();
-	unsigned short maxGrayValue;
-	sourceFile >> width >> height >> maxGrayValue;
-	auto pixels = LoadPixels<unsigned short>();
-	return std::make_shared<PgmImage>(comments, width, height, maxGrayValue, pixels);
+	ImageHeader header;
+	header.comments = LoadComments();
+	sourceFile >> header.width >> header.height >> header.maxValue;
+	auto pixels = LoadPixels<unsigned short>(header);
+	return std::make_shared<PgmImage>(header, pixels);
 }
 
 shared_ptr<PpmImage> ImageLoader::LoadPpm()
 {
-	comments = LoadComments();
-	unsigned short maxColorValue;
-	sourceFile >> width >> height >> maxColorValue;
-	auto pixels = LoadPixels<RgbPixel>();
-	return std::make_shared<PpmImage>(comments, width, height, maxColorValue, pixels);
+	ImageHeader header;
+	header.comments = LoadComments();
+	sourceFile >> header.width >> header.height >> header.maxValue;
+	auto pixels = LoadPixels<RgbPixel>(header);
+	return std::make_shared<PpmImage>(header, pixels);
 }
 
 vector<string> ImageLoader::LoadComments()

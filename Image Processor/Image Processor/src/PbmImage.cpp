@@ -6,11 +6,8 @@
 using std::string;
 using std::ifstream;
 using std::ofstream;
-using std::getline;
 
-PbmImage::PbmImage(const vector<string>& comments, const int width, const int height, vector<vector<char>> bitmap):
-	Image(comments, width, height),
-	bitmap(std::move(bitmap))
+PbmImage::PbmImage(const ImageHeader& header, vector<vector<char>> bitmap): Image(header), bitmap(std::move(bitmap))
 {
 }
 
@@ -26,14 +23,14 @@ void PbmImage::SaveHeader(ofstream& targetFile)
 {
 	targetFile << "P1\n";
 	SaveComments(targetFile);
-	targetFile << width << ' ' << height << "\n";
+	targetFile << header.width << ' ' << header.height << "\n";
 }
 
 void PbmImage::SavePixels(ofstream& targetFile)
 {
-	for (auto i = 0; i < width; ++i)
+	for (auto i = 0; i < header.width; ++i)
 	{
-		for (auto j = 0; j < height; ++j)
+		for (auto j = 0; j < header.height; ++j)
 		{
 			targetFile << bitmap.at(i).at(j) << ' ';
 		}

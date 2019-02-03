@@ -5,11 +5,9 @@
 using std::string;
 using std::ifstream;
 using std::ofstream;
-using std::getline;
 
-PgmImage::PgmImage(const vector<string>& comments, const int width, const int height, const unsigned short maxGrayValue,
-                   vector<vector<unsigned short>> graymap): Image(comments, width, height), maxGrayValue(maxGrayValue),
-                                                            graymap(std::move(graymap))
+PgmImage::PgmImage(const ImageHeader& header, vector<vector<unsigned short>> graymap): Image(header),
+                                                                                       graymap(std::move(graymap))
 {
 }
 
@@ -25,14 +23,14 @@ void PgmImage::SaveHeader(ofstream& targetFile)
 {
 	targetFile << "P2\n";
 	SaveComments(targetFile);
-	targetFile << width << ' ' << height << '\n' << maxGrayValue << "\n";
+	targetFile << header.width << ' ' << header.height << '\n' << header.maxValue << "\n";
 }
 
 void PgmImage::SavePixels(ofstream& targetFile)
 {
-	for (auto i = 0; i < width; ++i)
+	for (auto i = 0; i < header.width; ++i)
 	{
-		for (auto j = 0; j < height; ++j)
+		for (auto j = 0; j < header.height; ++j)
 		{
 			targetFile << graymap.at(i).at(j) << ' ';
 		}

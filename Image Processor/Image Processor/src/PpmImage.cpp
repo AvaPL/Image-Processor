@@ -5,11 +5,9 @@
 using std::string;
 using std::ifstream;
 using std::ofstream;
-using std::getline;
 
-PpmImage::PpmImage(const vector<string>& comments, int width, int height, unsigned short maxColorValue,
-                   vector<vector<RgbPixel>> colormap) : Image(comments, width, height), maxColorValue(maxColorValue),
-                                                        colormap(std::move(colormap))
+PpmImage::PpmImage(const ImageHeader& header, vector<vector<RgbPixel>> colormap) : Image(header),
+                                                                                   colormap(std::move(colormap))
 {
 }
 
@@ -25,14 +23,14 @@ void PpmImage::SaveHeader(ofstream& targetFile)
 {
 	targetFile << "P3\n";
 	SaveComments(targetFile);
-	targetFile << width << ' ' << height << '\n' << maxColorValue << "\n";
+	targetFile << header.width << ' ' << header.height << '\n' << header.maxValue << "\n";
 }
 
 void PpmImage::SavePixels(ofstream& targetFile)
 {
-	for (auto i = 0; i < width; ++i)
+	for (auto i = 0; i < header.width; ++i)
 	{
-		for (auto j = 0; j < height; ++j)
+		for (auto j = 0; j < header.height; ++j)
 		{
 			targetFile << colormap.at(i).at(j) << ' ';
 		}

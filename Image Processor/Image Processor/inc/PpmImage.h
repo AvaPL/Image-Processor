@@ -9,11 +9,10 @@ using std::ofstream;
 
 class PpmImage : public Image
 {
-	unsigned short maxColorValue;
 	vector<vector<RgbPixel>> colormap;
 
 public:
-	PpmImage(const vector<string>& comments, int width, int height, unsigned short maxColorValue, vector<vector<RgbPixel>> colormap);
+	PpmImage(const ImageHeader& header, vector<vector<RgbPixel>> colormap);
 	void Save(const string& targetFilename) override;
 
 private:

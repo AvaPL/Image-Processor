@@ -13,9 +13,6 @@ class ImageLoader
 {
 	string sourceFilename;
 	std::ifstream sourceFile;
-	vector<string> comments;
-	int width;
-	int height;
 
 public:
 	ImageLoader();
@@ -29,15 +26,15 @@ private:
 	shared_ptr<PpmImage> LoadPpm();
 	vector<string> LoadComments();
 	template <typename T>
-	vector<vector<T>> LoadPixels();
+	vector<vector<T>> LoadPixels(const ImageHeader& header);
 };
 
 template <typename T>
-vector<vector<T>> ImageLoader::LoadPixels()
+vector<vector<T>> ImageLoader::LoadPixels(const ImageHeader& header)
 {
-	auto pixels = vector<vector<T>>(width, vector<T>(height));
-	for (auto i = 0; i < width; ++i)
-		for (auto j = 0; j < height; ++j)
+	auto pixels = vector<vector<T>>(header.width, vector<T>(header.height));
+	for (auto i = 0; i < header.width; ++i)
+		for (auto j = 0; j < header.height; ++j)
 		{
 			sourceFile >> pixels.at(i).at(j);
 		}
