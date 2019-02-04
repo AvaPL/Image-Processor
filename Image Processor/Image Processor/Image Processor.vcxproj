@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BitPixel.cpp" />
+    <ClCompile Include="src\FormatConverter.cpp" />
+    <ClCompile Include="src\GrayPixel.cpp" />
     <ClCompile Include="src\Image.cpp" />
     <ClCompile Include="src\ImageLoader.cpp" />
     <ClCompile Include="src\ImageSaver.cpp" />
@@ -29,8 +32,12 @@
     <ClCompile Include="src\RgbPixel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\BitPixel.h" />
+    <ClInclude Include="inc\DefaultValues.h" />
     <ClInclude Include="inc\Format.h" />
+    <ClInclude Include="inc\GrayPixel.h" />
     <ClInclude Include="inc\Image.h" />
+    <ClInclude Include="inc\FormatConverter.h" />
     <ClInclude Include="inc\ImageHeader.h" />
     <ClInclude Include="inc\ImageLoader.h" />
     <ClInclude Include="inc\ImageSaver.h" />

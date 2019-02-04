@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 
 struct RgbPixel
 {
@@ -6,7 +7,8 @@ struct RgbPixel
 	unsigned short green;
 	unsigned short blue;
 
-	RgbPixel(): red(), green(), blue()
+	explicit RgbPixel(const unsigned short red = 0, const unsigned short green = 0,
+	                  const unsigned short blue = 0): red(red), green(green), blue(blue)
 	{
 	}
 

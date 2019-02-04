@@ -1,6 +1,7 @@
 #include "../inc/ImageLoader.h"
 
 using std::shared_ptr;
+using std::make_shared;
 
 ImageLoader::ImageLoader()
 {
@@ -38,8 +39,8 @@ shared_ptr<PbmImage> ImageLoader::LoadPbm()
 	ImageHeader header;
 	header.comments = LoadComments();
 	sourceFile >> header.width >> header.height;
-	auto pixels = LoadPixels<char>(header);
-	return std::make_shared<PbmImage>(header, pixels);
+	auto pixels = LoadPixels<BitPixel>(header);
+	return make_shared<PbmImage>(header, pixels);
 }
 
 shared_ptr<PgmImage> ImageLoader::LoadPgm()
@@ -47,8 +48,8 @@ shared_ptr<PgmImage> ImageLoader::LoadPgm()
 	ImageHeader header;
 	header.comments = LoadComments();
 	sourceFile >> header.width >> header.height >> header.maxValue;
-	auto pixels = LoadPixels<unsigned short>(header);
-	return std::make_shared<PgmImage>(header, pixels);
+	auto pixels = LoadPixels<GrayPixel>(header);
+	return make_shared<PgmImage>(header, pixels);
 }
 
 shared_ptr<PpmImage> ImageLoader::LoadPpm()
@@ -57,7 +58,7 @@ shared_ptr<PpmImage> ImageLoader::LoadPpm()
 	header.comments = LoadComments();
 	sourceFile >> header.width >> header.height >> header.maxValue;
 	auto pixels = LoadPixels<RgbPixel>(header);
-	return std::make_shared<PpmImage>(header, pixels);
+	return make_shared<PpmImage>(header, pixels);
 }
 
 vector<string> ImageLoader::LoadComments()
