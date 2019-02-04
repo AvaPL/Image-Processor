@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 #include "Image.h"
-#include "../inc/RgbPixel.h"
+#include "RgbPixel.h"
+#include "BitPixel.h"
+#include "GrayPixel.h"
 
 using std::vector;
 
@@ -17,8 +19,6 @@ public:
 	shared_ptr<Image> ToPpm() override;
 
 private:
-	vector<vector<char>> ColormapToBitmap();
-	static char RgbPixelToBitValue(const RgbPixel& pixel); //TODO: Remove, add GrayPixel and BitPixel class with conversion.
-	vector<vector<unsigned short>> ColormapToGraymap();
-	static unsigned short RgbPixelToGrayValue(const RgbPixel& pixel); //TODO: Remove, add GrayPixel and BitPixel class with conversion.
+	vector<vector<BitPixel>> ColormapToBitmap();
+	vector<vector<GrayPixel>> ColormapToGraymap();
 };

@@ -1,7 +1,7 @@
 #include "../inc/PpmImage.h"
-#include "../inc/FormatConvertingConstants.h"
 #include "../inc/PbmImage.h"
 #include "../inc/PgmImage.h"
+#include "../inc/FormatConverter.h"
 
 using std::make_shared;
 
@@ -18,44 +18,33 @@ shared_ptr<Image> PpmImage::ToPbm()
 	return make_shared<PbmImage>(newHeader, newBitmap);
 }
 
-vector<vector<char>> PpmImage::ColormapToBitmap()
+vector<vector<BitPixel>> PpmImage::ColormapToBitmap()
 {
-	auto bitmap = vector<vector<char>>(header.width, vector<char>(header.height));
+	auto bitmap = vector<vector<BitPixel>>(header.width, vector<BitPixel>(header.height));
 	for (auto i = 0; i < header.width; ++i)
 		for (auto j = 0; j < header.height; ++j)
 		{
-			bitmap.at(i).at(j) = RgbPixelToBitValue(colormap.at(i).at(j));
-			//TODO: Remove, add GrayPixel and BitPixel class with conversion.
+			bitmap.at(i).at(j) = FormatConverter::ToBitPixel(colormap.at(i).at(j), header.maxValue);
 		}
 	return bitmap;
 }
 
-char PpmImage::RgbPixelToBitValue(const RgbPixel& pixel)
-{
-	return RgbPixelToGrayValue(pixel) <= PGM_MAX_GRAY_VALUE/2 ? '1' : '0';
-}
-
 shared_ptr<Image> PpmImage::ToPgm()
 {
-	ImageHeader newHeader = GetPgmHeader();
+	ImageHeader newHeader = GetPgmHeader(header.maxValue);
 	auto newGraymap = ColormapToGraymap();
 	return make_shared<PgmImage>(newHeader, newGraymap);
 }
 
-vector<vector<unsigned short>> PpmImage::ColormapToGraymap()
+vector<vector<GrayPixel>> PpmImage::ColormapToGraymap()
 {
-	auto graymap = vector<vector<unsigned short>>(header.width, vector<unsigned short>(header.height));
+	auto graymap = vector<vector<GrayPixel>>(header.width, vector<GrayPixel>(header.height));
 	for (auto i = 0; i < header.width; ++i)
 		for (auto j = 0; j < header.height; ++j)
 		{
-			graymap.at(i).at(j) = RgbPixelToGrayValue(colormap.at(i).at(j));
+			graymap.at(i).at(j) = FormatConverter::ToGrayPixel(colormap.at(i).at(j));
 		}
 	return graymap;
-}
-
-unsigned short PpmImage::RgbPixelToGrayValue(const RgbPixel& pixel)
-{
-	return (pixel.red + pixel.green + pixel.blue) / 3;
 }
 
 shared_ptr<Image> PpmImage::ToPpm()

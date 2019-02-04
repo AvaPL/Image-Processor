@@ -1,28 +1,28 @@
 #include "../inc/Image.h"
-#include "../inc/FormatConvertingConstants.h"
+#include "../inc/DefaultValues.h"
 
-// Image::~Image() = default;
+Image::~Image() = default;
 
 ImageHeader Image::GetPbmHeader() const
 {
 	ImageHeader newHeader = header;
 	newHeader.format = PBM;
-	newHeader.maxValue = PBM_MAX_VALUE;
+	newHeader.maxValue = PBM_DEFAULT_MAX_VALUE;
 	return newHeader;
 }
 
-ImageHeader Image::GetPgmHeader() const
+ImageHeader Image::GetPgmHeader(const unsigned short maxGrayValue) const
 {
 	ImageHeader newHeader = header;
 	newHeader.format = PGM;
-	newHeader.maxValue = PGM_MAX_GRAY_VALUE;
+	newHeader.maxValue = maxGrayValue;
 	return newHeader;
 }
 
-ImageHeader Image::GetPpmHeader() const
+ImageHeader Image::GetPpmHeader(const unsigned short maxColorValue) const
 {
 	ImageHeader newHeader = header;
 	newHeader.format = PPM;
-	newHeader.maxValue = PPM_MAX_COLOR_VALUE;
+	newHeader.maxValue = maxColorValue;
 	return newHeader;
 }

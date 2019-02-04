@@ -39,7 +39,7 @@ shared_ptr<PbmImage> ImageLoader::LoadPbm()
 	ImageHeader header;
 	header.comments = LoadComments();
 	sourceFile >> header.width >> header.height;
-	auto pixels = LoadPixels<char>(header);
+	auto pixels = LoadPixels<BitPixel>(header);
 	return make_shared<PbmImage>(header, pixels);
 }
 
@@ -48,7 +48,7 @@ shared_ptr<PgmImage> ImageLoader::LoadPgm()
 	ImageHeader header;
 	header.comments = LoadComments();
 	sourceFile >> header.width >> header.height >> header.maxValue;
-	auto pixels = LoadPixels<unsigned short>(header);
+	auto pixels = LoadPixels<GrayPixel>(header);
 	return make_shared<PgmImage>(header, pixels);
 }
 

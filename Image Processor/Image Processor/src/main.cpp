@@ -13,10 +13,10 @@ int main(int argc, char* argv[])
 	ImageSaver saver;
 	saver.Save(image, targetFilename);
 
-	auto pbmImage = image->ToPbm();
+	auto image2 = image->ToPbm();
 	targetFilename = "../Example Images/test.pbm";
-	saver.Save(pbmImage, targetFilename);
-	auto pgmImage = image->ToPgm();
+	saver.Save(image2, targetFilename);
+	auto image3 = image->ToPgm();
 	targetFilename = "../Example Images/test.pgm";
-	saver.Save(pgmImage, targetFilename);
+	saver.Save(image3, targetFilename);
 }

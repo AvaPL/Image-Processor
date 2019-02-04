@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 
 struct RgbPixel
 {
@@ -10,8 +11,6 @@ struct RgbPixel
 	                  const unsigned short blue = 0): red(red), green(green), blue(blue)
 	{
 	}
-
-	//TODO: Add converstion from/to RGB here.
 
 	friend std::ostream& operator <<(std::ostream& output, const RgbPixel& pixel);
 	friend std::istream& operator >>(std::istream& input, RgbPixel& pixel);
