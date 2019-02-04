@@ -31,6 +31,7 @@
   <ItemGroup>
     <ClInclude Include="inc\Format.h" />
     <ClInclude Include="inc\Image.h" />
+    <ClInclude Include="inc\FormatConvertingConstants.h" />
     <ClInclude Include="inc\ImageHeader.h" />
     <ClInclude Include="inc\ImageLoader.h" />
     <ClInclude Include="inc\ImageSaver.h" />
