@@ -3,6 +3,8 @@
 
 using std::vector;
 
+//TODO: Add ForwardIterator.
+
 template <typename T>
 class PixelMap
 {

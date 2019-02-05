@@ -3,6 +3,8 @@
 #include <vector>
 #include "Format.h"
 
+//TODO: This should be a class.
+
 struct ImageHeader
 {
 	Format format;
