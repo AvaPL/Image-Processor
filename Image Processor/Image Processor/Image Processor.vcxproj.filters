@@ -89,5 +89,8 @@
     <ClInclude Include="inc\DefaultValues.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
+    <ClInclude Include="inc\PixelMap.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

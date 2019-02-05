@@ -16,7 +16,6 @@ shared_ptr<Image> ImageLoader::Load(const string& sourceFilename)
 	return image;
 }
 
-
 shared_ptr<Image> ImageLoader::LoadByFormat()
 {
 	string buffer;

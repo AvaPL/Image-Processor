@@ -5,8 +5,8 @@
 
 using std::make_shared;
 
-PpmImage::PpmImage(const ImageHeader& header, vector<vector<RgbPixel>> colormap) : Image(header),
-                                                                                   colormap(std::move(colormap))
+PpmImage::PpmImage(const ImageHeader& header, PixelMap<RgbPixel> colormap) : Image(header),
+                                                                             colormap(std::move(colormap))
 {
 	this->header.format = PPM;
 }
@@ -18,13 +18,13 @@ shared_ptr<Image> PpmImage::ToPbm()
 	return make_shared<PbmImage>(newHeader, newBitmap);
 }
 
-vector<vector<BitPixel>> PpmImage::ColormapToBitmap()
+PixelMap<BitPixel> PpmImage::ColormapToBitmap()
 {
-	auto bitmap = vector<vector<BitPixel>>(header.width, vector<BitPixel>(header.height));
-	for (auto i = 0; i < header.width; ++i)
-		for (auto j = 0; j < header.height; ++j)
+	auto bitmap = PixelMap<BitPixel>(header.width, header.height);
+	for (auto i = 0; i < header.height; ++i)
+		for (auto j = 0; j < header.width; ++j)
 		{
-			bitmap.at(i).at(j) = FormatConverter::ToBitPixel(colormap.at(i).at(j), header.maxValue);
+			bitmap(i,j) = FormatConverter::ToBitPixel(colormap(i, j), header.maxValue);
 		}
 	return bitmap;
 }
@@ -36,13 +36,13 @@ shared_ptr<Image> PpmImage::ToPgm()
 	return make_shared<PgmImage>(newHeader, newGraymap);
 }
 
-vector<vector<GrayPixel>> PpmImage::ColormapToGraymap()
+PixelMap<GrayPixel> PpmImage::ColormapToGraymap()
 {
-	auto graymap = vector<vector<GrayPixel>>(header.width, vector<GrayPixel>(header.height));
-	for (auto i = 0; i < header.width; ++i)
-		for (auto j = 0; j < header.height; ++j)
+	auto graymap = PixelMap<GrayPixel>(header.width, header.height);
+	for (auto i = 0; i < header.height; ++i)
+		for (auto j = 0; j < header.width; ++j)
 		{
-			graymap.at(i).at(j) = FormatConverter::ToGrayPixel(colormap.at(i).at(j));
+			graymap(i, j) = FormatConverter::ToGrayPixel(colormap(i,j));
 		}
 	return graymap;
 }

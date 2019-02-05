@@ -43,6 +43,7 @@
     <ClInclude Include="inc\ImageSaver.h" />
     <ClInclude Include="inc\PbmImage.h" />
     <ClInclude Include="inc\PgmImage.h" />
+    <ClInclude Include="inc\PixelMap.h" />
     <ClInclude Include="inc\PpmImage.h" />
     <ClInclude Include="inc\RgbPixel.h" />
   </ItemGroup>

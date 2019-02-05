@@ -24,17 +24,17 @@ private:
 	shared_ptr<PpmImage> LoadPpm();
 	vector<string> LoadComments();
 	template <typename T>
-	vector<vector<T>> LoadPixels(const ImageHeader& header);
+	PixelMap<T> LoadPixels(const ImageHeader& header);
 };
 
 template <typename T>
-vector<vector<T>> ImageLoader::LoadPixels(const ImageHeader& header)
+PixelMap<T> ImageLoader::LoadPixels(const ImageHeader& header)
 {
-	auto pixels = vector<vector<T>>(header.width, vector<T>(header.height));
-	for (auto i = 0; i < header.width; ++i)
-		for (auto j = 0; j < header.height; ++j)
+	auto pixels = PixelMap<T>(header.width, header.height);
+	for (auto i = 0; i < header.height; ++i)
+		for (auto j = 0; j < header.width; ++j)
 		{
-			sourceFile >> pixels.at(i).at(j);
+			sourceFile >> pixels(i, j);
 		}
 	return pixels;
 }

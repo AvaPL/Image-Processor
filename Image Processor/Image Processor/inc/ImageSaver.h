@@ -39,11 +39,11 @@ void ImageSaver::SavePixels()
 {
 	const ImageHeader header = imageToSave->GetHeader();
 	auto pixels = std::dynamic_pointer_cast<T>(imageToSave)->GetPixels();
-	for (auto i = 0; i < header.width; ++i)
+	for (auto i = 0; i < header.height; ++i)
 	{
-		for (auto j = 0; j < header.height; ++j)
+		for (auto j = 0; j < header.width; ++j)
 		{
-			targetFile << pixels.at(i).at(j) << ' ';
+			targetFile << pixels(i, j) << ' ';
 		}
 		targetFile << '\n';
 	}
