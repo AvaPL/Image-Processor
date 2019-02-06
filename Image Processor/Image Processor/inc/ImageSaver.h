@@ -9,6 +9,8 @@
 using std::string;
 using std::shared_ptr;
 
+//TODO: Split into interface and specialized savers for each format.
+
 class ImageSaver
 {
 	shared_ptr<Image> imageToSave;
@@ -37,11 +39,10 @@ private:
 template <typename T>
 void ImageSaver::SavePixels()
 {
-	const ImageHeader header = imageToSave->GetHeader();
 	auto pixels = std::dynamic_pointer_cast<T>(imageToSave)->GetPixels();
-	for (auto i = 0; i < header.height; ++i)
+	for (auto i = 0; i < imageToSave->GetHeight(); ++i)
 	{
-		for (auto j = 0; j < header.width; ++j)
+		for (auto j = 0; j < imageToSave->GetWidth(); ++j)
 		{
 			targetFile << pixels(i, j) << ' ';
 		}

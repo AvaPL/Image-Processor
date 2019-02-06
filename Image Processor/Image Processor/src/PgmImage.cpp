@@ -5,26 +5,25 @@
 
 using std::make_shared;
 
-PgmImage::PgmImage(const ImageHeader& header, PixelMap<GrayPixel> graymap): Image(header),
+PgmImage::PgmImage(const ImageMeta& meta, PixelMap<GrayPixel> graymap): Image(meta),
                                                                             graymap(std::move(graymap))
 {
-	this->header.format = PGM;
 }
 
 shared_ptr<Image> PgmImage::ToPbm()
 {
-	ImageHeader newHeader = GetPbmHeader();
+	ImageMeta newMeta = ImageMeta(PBM);
 	auto newBitmap = GraymapToBitmap();
-	return make_shared<PbmImage>(newHeader, newBitmap);
+	return make_shared<PbmImage>(newMeta, newBitmap);
 }
 
 PixelMap<BitPixel> PgmImage::GraymapToBitmap()
 {
-	auto bitmap = PixelMap<BitPixel>(graymap.Width(), graymap.Height());
-	for (auto i = 0; i < graymap.Height(); ++i)
-		for (auto j = 0; j < graymap.Width(); ++j)
+	auto bitmap = PixelMap<BitPixel>(graymap.GetWidth(), graymap.GetHeight());
+	for (auto i = 0; i < graymap.GetHeight(); ++i)
+		for (auto j = 0; j < graymap.GetWidth(); ++j)
 		{
-			bitmap(i, j) = FormatConverter::ToBitPixel(graymap(i, j), header.maxValue);
+			bitmap(i, j) = FormatConverter::ToBitPixel(graymap(i, j), meta.GetMaxValue());
 		}
 	return bitmap;
 }
@@ -36,16 +35,16 @@ shared_ptr<Image> PgmImage::ToPgm()
 
 shared_ptr<Image> PgmImage::ToPpm()
 {
-	ImageHeader newHeader = GetPpmHeader(header.maxValue);
+	ImageMeta newMeta = ImageMeta(PPM, meta.GetMaxValue());
 	auto newColormap = GraymapToColormap();
-	return make_shared<PpmImage>(newHeader, newColormap);
+	return make_shared<PpmImage>(newMeta, newColormap);
 }
 
 PixelMap<RgbPixel> PgmImage::GraymapToColormap()
 {
-	auto colormap = PixelMap<RgbPixel>(graymap.Width(), graymap.Height());
-	for (auto i = 0; i < graymap.Height(); ++i)
-		for (auto j = 0; j < graymap.Width(); ++j)
+	auto colormap = PixelMap<RgbPixel>(graymap.GetWidth(), graymap.GetHeight());
+	for (auto i = 0; i < graymap.GetHeight(); ++i)
+		for (auto j = 0; j < graymap.GetWidth(); ++j)
 		{
 			colormap(i, j) = FormatConverter::ToRgbPixel(graymap(i, j));
 		}

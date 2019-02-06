@@ -5,42 +5,41 @@
 
 using std::make_shared;
 
-PpmImage::PpmImage(const ImageHeader& header, PixelMap<RgbPixel> colormap) : Image(header),
+PpmImage::PpmImage(const ImageMeta& meta, PixelMap<RgbPixel> colormap) : Image(meta),
                                                                              colormap(std::move(colormap))
 {
-	this->header.format = PPM;
 }
 
 shared_ptr<Image> PpmImage::ToPbm()
 {
-	ImageHeader newHeader = GetPbmHeader();
+	ImageMeta newMeta = ImageMeta(PBM);
 	auto newBitmap = ColormapToBitmap();
-	return make_shared<PbmImage>(newHeader, newBitmap);
+	return make_shared<PbmImage>(newMeta, newBitmap);
 }
 
 PixelMap<BitPixel> PpmImage::ColormapToBitmap()
 {
-	auto bitmap = PixelMap<BitPixel>(colormap.Width(), colormap.Height());
-	for (auto i = 0; i < colormap.Height(); ++i)
-		for (auto j = 0; j < colormap.Width(); ++j)
+	auto bitmap = PixelMap<BitPixel>(colormap.GetWidth(), colormap.GetHeight());
+	for (auto i = 0; i < colormap.GetHeight(); ++i)
+		for (auto j = 0; j < colormap.GetWidth(); ++j)
 		{
-			bitmap(i,j) = FormatConverter::ToBitPixel(colormap(i, j), header.maxValue);
+			bitmap(i,j) = FormatConverter::ToBitPixel(colormap(i, j), meta.GetMaxValue());
 		}
 	return bitmap;
 }
 
 shared_ptr<Image> PpmImage::ToPgm()
 {
-	ImageHeader newHeader = GetPgmHeader(header.maxValue);
+	ImageMeta newMeta = ImageMeta(PGM, meta.GetMaxValue());
 	auto newGraymap = ColormapToGraymap();
-	return make_shared<PgmImage>(newHeader, newGraymap);
+	return make_shared<PgmImage>(newMeta, newGraymap);
 }
 
 PixelMap<GrayPixel> PpmImage::ColormapToGraymap()
 {
-	auto graymap = PixelMap<GrayPixel>(colormap.Width(), colormap.Height());
-	for (auto i = 0; i < colormap.Height(); ++i)
-		for (auto j = 0; j < colormap.Width(); ++j)
+	auto graymap = PixelMap<GrayPixel>(colormap.GetWidth(), colormap.GetHeight());
+	for (auto i = 0; i < colormap.GetHeight(); ++i)
+		for (auto j = 0; j < colormap.GetWidth(); ++j)
 		{
 			graymap(i, j) = FormatConverter::ToGrayPixel(colormap(i,j));
 		}

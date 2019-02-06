@@ -9,6 +9,8 @@
 using std::string;
 using std::shared_ptr;
 
+//TODO: Split into interface and specialized loaders for each format.
+
 class ImageLoader
 {
 	std::ifstream sourceFile;
@@ -22,19 +24,18 @@ private:
 	shared_ptr<PbmImage> LoadPbm();
 	shared_ptr<PgmImage> LoadPgm();
 	shared_ptr<PpmImage> LoadPpm();
-	vector<string> LoadComments();
+	void LoadMaxValue(ImageMeta& meta);
+	void LoadComments(ImageMeta& meta);
 	template <typename T>
-	PixelMap<T> LoadPixels(const ImageHeader& header);
+	PixelMap<T> LoadPixelMap(int width, int height);
 };
 
 template <typename T>
-PixelMap<T> ImageLoader::LoadPixels(const ImageHeader& header)
+PixelMap<T> ImageLoader::LoadPixelMap(int width, int height)
 {
-	auto pixels = PixelMap<T>(header.width, header.height);
-	for (auto i = 0; i < header.height; ++i)
-		for (auto j = 0; j < header.width; ++j)
-		{
+	auto pixels = PixelMap<T>(width, height);
+	for (auto i = 0; i < height; ++i)
+		for (auto j = 0; j < width; ++j)
 			sourceFile >> pixels(i, j);
-		}
 	return pixels;
 }
