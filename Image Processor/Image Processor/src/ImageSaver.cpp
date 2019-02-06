@@ -15,7 +15,7 @@ void ImageSaver::Save(shared_ptr<Image> imageToSave, const string& targetFilenam
 
 void ImageSaver::SaveByFormat()
 {
-	const Format targetFormat = imageToSave->GetHeader().format;
+	const Format targetFormat = imageToSave->GetFormat();
 	switch (targetFormat)
 	{
 	case PBM:
@@ -35,34 +35,31 @@ void ImageSaver::SaveByFormat()
 
 void ImageSaver::SavePbm()
 {
-	const ImageHeader header = imageToSave->GetHeader();
 	targetFile << "P1\n";
 	SaveComments();
-	targetFile << header.width << ' ' << header.height << "\n";
+	targetFile << imageToSave->GetWidth() << ' ' << imageToSave->GetHeight() << "\n";
 	SavePixels<PbmImage>();
 }
 
 void ImageSaver::SavePgm()
 {
-	const ImageHeader header = imageToSave->GetHeader();
 	targetFile << "P2\n";
 	SaveComments();
-	targetFile << header.width << ' ' << header.height << "\n" << header.maxValue << "\n";
+	targetFile << imageToSave->GetWidth() << ' ' << imageToSave->GetHeight() << "\n" << imageToSave->GetMaxValue() << "\n";
 	SavePixels<PgmImage>();
 }
 
 void ImageSaver::SavePpm()
 {
-	const ImageHeader header = imageToSave->GetHeader();
 	targetFile << "P3\n";
 	SaveComments();
-	targetFile << header.width << ' ' << header.height << "\n" << header.maxValue << "\n";
+	targetFile << imageToSave->GetWidth() << ' ' << imageToSave->GetHeight() << "\n" << imageToSave->GetMaxValue() << "\n";
 	SavePixels<PpmImage>();
 }
 
 void ImageSaver::SaveComments()
 {
-	auto comments = imageToSave->GetHeader().comments;
+	auto comments = imageToSave->GetComments();
 	for (const auto& element : comments)
 	{
 		targetFile << element << '\n';

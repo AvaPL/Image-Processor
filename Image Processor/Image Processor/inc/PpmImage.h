@@ -1,24 +1,29 @@
 #pragma once
 #include <vector>
 #include "Image.h"
+#include "PixelMap.h"
 #include "RgbPixel.h"
 #include "BitPixel.h"
 #include "GrayPixel.h"
 
 using std::vector;
 
+//TODO: Move converters to FormatConverter class.
+
 class PpmImage : public Image
 {
-	vector<vector<RgbPixel>> colormap;
+	PixelMap<RgbPixel> colormap;
 
 public:
-	PpmImage(const ImageHeader& header, vector<vector<RgbPixel>> colormap);
-	const vector<vector<RgbPixel>>& GetPixels() const { return colormap; }
+	PpmImage(const ImageMeta& meta, PixelMap<RgbPixel> colormap);
+	const PixelMap<RgbPixel>& GetPixels() const { return colormap; }
+	int GetWidth() const override { return colormap.GetWidth(); }
+	int GetHeight() const override { return colormap.GetHeight(); }
 	shared_ptr<Image> ToPbm() override;
 	shared_ptr<Image> ToPgm() override;
 	shared_ptr<Image> ToPpm() override;
 
 private:
-	vector<vector<BitPixel>> ColormapToBitmap();
-	vector<vector<GrayPixel>> ColormapToGraymap();
+	PixelMap<BitPixel> ColormapToBitmap();
+	PixelMap<GrayPixel> ColormapToGraymap();
 };

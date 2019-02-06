@@ -5,44 +5,43 @@
 
 using std::make_shared;
 
-PpmImage::PpmImage(const ImageHeader& header, vector<vector<RgbPixel>> colormap) : Image(header),
-                                                                                   colormap(std::move(colormap))
+PpmImage::PpmImage(const ImageMeta& meta, PixelMap<RgbPixel> colormap) : Image(meta),
+                                                                             colormap(std::move(colormap))
 {
-	this->header.format = PPM;
 }
 
 shared_ptr<Image> PpmImage::ToPbm()
 {
-	ImageHeader newHeader = GetPbmHeader();
+	ImageMeta newMeta = ImageMeta(PBM);
 	auto newBitmap = ColormapToBitmap();
-	return make_shared<PbmImage>(newHeader, newBitmap);
+	return make_shared<PbmImage>(newMeta, newBitmap);
 }
 
-vector<vector<BitPixel>> PpmImage::ColormapToBitmap()
+PixelMap<BitPixel> PpmImage::ColormapToBitmap()
 {
-	auto bitmap = vector<vector<BitPixel>>(header.width, vector<BitPixel>(header.height));
-	for (auto i = 0; i < header.width; ++i)
-		for (auto j = 0; j < header.height; ++j)
+	auto bitmap = PixelMap<BitPixel>(colormap.GetWidth(), colormap.GetHeight());
+	for (auto i = 0; i < colormap.GetHeight(); ++i)
+		for (auto j = 0; j < colormap.GetWidth(); ++j)
 		{
-			bitmap.at(i).at(j) = FormatConverter::ToBitPixel(colormap.at(i).at(j), header.maxValue);
+			bitmap(i,j) = FormatConverter::ToBitPixel(colormap(i, j), meta.GetMaxValue());
 		}
 	return bitmap;
 }
 
 shared_ptr<Image> PpmImage::ToPgm()
 {
-	ImageHeader newHeader = GetPgmHeader(header.maxValue);
+	ImageMeta newMeta = ImageMeta(PGM, meta.GetMaxValue());
 	auto newGraymap = ColormapToGraymap();
-	return make_shared<PgmImage>(newHeader, newGraymap);
+	return make_shared<PgmImage>(newMeta, newGraymap);
 }
 
-vector<vector<GrayPixel>> PpmImage::ColormapToGraymap()
+PixelMap<GrayPixel> PpmImage::ColormapToGraymap()
 {
-	auto graymap = vector<vector<GrayPixel>>(header.width, vector<GrayPixel>(header.height));
-	for (auto i = 0; i < header.width; ++i)
-		for (auto j = 0; j < header.height; ++j)
+	auto graymap = PixelMap<GrayPixel>(colormap.GetWidth(), colormap.GetHeight());
+	for (auto i = 0; i < colormap.GetHeight(); ++i)
+		for (auto j = 0; j < colormap.GetWidth(); ++j)
 		{
-			graymap.at(i).at(j) = FormatConverter::ToGrayPixel(colormap.at(i).at(j));
+			graymap(i, j) = FormatConverter::ToGrayPixel(colormap(i,j));
 		}
 	return graymap;
 }

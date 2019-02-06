@@ -16,7 +16,6 @@ shared_ptr<Image> ImageLoader::Load(const string& sourceFilename)
 	return image;
 }
 
-
 shared_ptr<Image> ImageLoader::LoadByFormat()
 {
 	string buffer;
@@ -34,41 +33,50 @@ shared_ptr<Image> ImageLoader::LoadByFormat()
 	}
 }
 
-shared_ptr<PbmImage> ImageLoader::LoadPbm()
+shared_ptr<PbmImage> ImageLoader::LoadPbm() //TODO: Make shorter after split.
 {
-	ImageHeader header;
-	header.comments = LoadComments();
-	sourceFile >> header.width >> header.height;
-	auto pixels = LoadPixels<BitPixel>(header);
-	return make_shared<PbmImage>(header, pixels);
+	auto meta = ImageMeta(PBM);
+	LoadComments(meta);
+	int width, height;
+	sourceFile >> width >> height;
+	auto pixels = LoadPixelMap<BitPixel>(width, height);
+	return make_shared<PbmImage>(meta, pixels);
+}
+shared_ptr<PgmImage> ImageLoader::LoadPgm() //TODO: Make shorter after split.
+{
+	auto meta = ImageMeta(PGM);
+	LoadComments(meta);
+	int width, height;
+	sourceFile >> width >> height;
+	LoadMaxValue(meta);
+	auto pixels = LoadPixelMap<GrayPixel>(width, height);
+	return make_shared<PgmImage>(meta, pixels);
 }
 
-shared_ptr<PgmImage> ImageLoader::LoadPgm()
+shared_ptr<PpmImage> ImageLoader::LoadPpm() //TODO: Make shorter after split.
 {
-	ImageHeader header;
-	header.comments = LoadComments();
-	sourceFile >> header.width >> header.height >> header.maxValue;
-	auto pixels = LoadPixels<GrayPixel>(header);
-	return make_shared<PgmImage>(header, pixels);
+	auto meta = ImageMeta(PPM);
+	LoadComments(meta);	
+	int width, height;
+	sourceFile >> width >> height;
+	LoadMaxValue(meta);
+	auto pixels = LoadPixelMap<RgbPixel>(width, height);
+	return make_shared<PpmImage>(meta, pixels);
 }
 
-shared_ptr<PpmImage> ImageLoader::LoadPpm()
+void ImageLoader::LoadMaxValue(ImageMeta& meta)
 {
-	ImageHeader header;
-	header.comments = LoadComments();
-	sourceFile >> header.width >> header.height >> header.maxValue;
-	auto pixels = LoadPixels<RgbPixel>(header);
-	return make_shared<PpmImage>(header, pixels);
+	unsigned short maxValue;
+	sourceFile >> maxValue;
+	meta.SetMaxValue(maxValue);
 }
 
-vector<string> ImageLoader::LoadComments()
+void ImageLoader::LoadComments(ImageMeta& meta)
 {
-	vector<string> comments;
 	string buffer;
 	while (sourceFile.peek() == '#')
 	{
 		getline(sourceFile, buffer);
-		comments.push_back(buffer);
+		meta.AddComment(buffer);
 	}
-	return comments;
 }

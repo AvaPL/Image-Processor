@@ -24,6 +24,7 @@
     <ClCompile Include="src\GrayPixel.cpp" />
     <ClCompile Include="src\Image.cpp" />
     <ClCompile Include="src\ImageLoader.cpp" />
+    <ClCompile Include="src\ImageMeta.cpp" />
     <ClCompile Include="src\ImageSaver.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PbmImage.cpp" />
@@ -38,11 +39,12 @@
     <ClInclude Include="inc\GrayPixel.h" />
     <ClInclude Include="inc\Image.h" />
     <ClInclude Include="inc\FormatConverter.h" />
-    <ClInclude Include="inc\ImageHeader.h" />
+    <ClInclude Include="inc\ImageMeta.h" />
     <ClInclude Include="inc\ImageLoader.h" />
     <ClInclude Include="inc\ImageSaver.h" />
     <ClInclude Include="inc\PbmImage.h" />
     <ClInclude Include="inc\PgmImage.h" />
+    <ClInclude Include="inc\PixelMap.h" />
     <ClInclude Include="inc\PpmImage.h" />
     <ClInclude Include="inc\RgbPixel.h" />
   </ItemGroup>
