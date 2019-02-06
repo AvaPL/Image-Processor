@@ -40,12 +40,6 @@ template <typename T>
 void ImageSaver::SavePixels()
 {
 	auto pixels = std::dynamic_pointer_cast<T>(imageToSave)->GetPixels();
-	for (auto i = 0; i < imageToSave->GetHeight(); ++i)
-	{
-		for (auto j = 0; j < imageToSave->GetWidth(); ++j)
-		{
-			targetFile << pixels(i, j) << ' ';
-		}
-		targetFile << '\n';
-	}
+	for (const auto& element : pixels)
+		targetFile << element << ' ';
 }

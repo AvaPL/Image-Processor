@@ -25,7 +25,7 @@ public:
 	size_t GetWidth() const { return pixels.size(); }
 	size_t GetHeight() const { return pixels.at(0).size(); }
 
-	class iterator
+	class PixelMapIterator
 	{
 	public:
 		using iterator_category = std::forward_iterator_tag;
@@ -34,26 +34,28 @@ public:
 		using pointer = PixelType *;
 		using reference = PixelType &;
 
-		iterator(PixelMap& pixelMap, const int currentRow, const int currentColumn): pixelMap(pixelMap),
+		PixelMapIterator(PixelMap& pixelMap, const int currentRow, const int currentColumn): pixelMap(pixelMap),
 		                                                                             currentRowIndex(currentRow),
 		                                                                             currentColumnIndex(currentColumn)
 		{
 		}
 
-		iterator& operator++();
-		iterator operator++(int);
+		PixelMapIterator& operator++();
+		PixelMapIterator operator++(int);
 		reference operator*() { return pixelMap(currentRowIndex, currentColumnIndex); };
 		pointer operator->() { return &pixelMap(currentRowIndex, currentColumnIndex); };
-		bool operator==(const iterator& otherIterator);
-		bool operator!=(const iterator& otherIterator);
+		bool operator==(const PixelMapIterator& otherIterator);
+		bool operator!=(const PixelMapIterator& otherIterator);
 	private:
 		PixelMap& pixelMap;
 		size_t currentRowIndex;
 		size_t currentColumnIndex;
 	};
 
-	iterator begin() { return iterator(*this, 0, 0); }
-	iterator end();
+	PixelMapIterator begin() { return PixelMapIterator(*this, 0, 0); }
+	PixelMapIterator end();
+
+	//TODO: Add const_iterator.
 };
 
 template <typename PixelType>
@@ -64,7 +66,7 @@ PixelMap<PixelType>& PixelMap<PixelType>::operator=(PixelMap&& pixelMapToMove) n
 }
 
 template <typename PixelType>
-typename PixelMap<PixelType>::iterator& PixelMap<PixelType>::iterator::operator++()
+typename PixelMap<PixelType>::PixelMapIterator& PixelMap<PixelType>::PixelMapIterator::operator++()
 {
 	++currentColumnIndex;
 	if (currentColumnIndex == pixelMap.GetWidth())
@@ -76,7 +78,7 @@ typename PixelMap<PixelType>::iterator& PixelMap<PixelType>::iterator::operator+
 }
 
 template <typename PixelType>
-typename PixelMap<PixelType>::iterator PixelMap<PixelType>::iterator::operator++(int)
+typename PixelMap<PixelType>::PixelMapIterator PixelMap<PixelType>::PixelMapIterator::operator++(int)
 {
 	const int previousStepRowIndex = currentRowIndex;
 	const int previousStepColumnIndex = currentColumnIndex;
@@ -85,26 +87,26 @@ typename PixelMap<PixelType>::iterator PixelMap<PixelType>::iterator::operator++
 		++currentRowIndex;
 		currentColumnIndex = 0;
 	}
-	return iterator(pixelMap, previousStepRowIndex, previousStepColumnIndex);
+	return PixelMapIterator(pixelMap, previousStepRowIndex, previousStepColumnIndex);
 }
 
 template <typename PixelType>
-bool PixelMap<PixelType>::iterator::operator==(const iterator& otherIterator)
+bool PixelMap<PixelType>::PixelMapIterator::operator==(const PixelMapIterator& otherIterator)
 {
 	return currentRowIndex == otherIterator.currentRowIndex && currentColumnIndex == otherIterator.currentColumnIndex;
 }
 
 template <typename PixelType>
-bool PixelMap<PixelType>::iterator::operator!=(const iterator& otherIterator)
+bool PixelMap<PixelType>::PixelMapIterator::operator!=(const PixelMapIterator& otherIterator)
 {
 	return currentRowIndex != otherIterator.currentRowIndex || currentColumnIndex != otherIterator.currentColumnIndex;
 }
 
 template <typename PixelType>
-typename PixelMap<PixelType>::iterator PixelMap<PixelType>::end()
+typename PixelMap<PixelType>::PixelMapIterator PixelMap<PixelType>::end()
 {
 	//Iterator returned by end() points to the element next to the last element. Last element 
 	//index is (height - 1, width - 1). Incrementing the iterator at last element will change 
 	//index to row past the last one and first column, so index will be (height, 0).
-	return iterator(*this, GetHeight(), 0);
+	return PixelMapIterator(*this, GetHeight(), 0);
 }
