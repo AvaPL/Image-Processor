@@ -26,8 +26,8 @@ shared_ptr<Image> PbmImage::ToPgm()
 PixelMap<GrayPixel> PbmImage::BitmapToGraymap()
 {
 	auto graymap = PixelMap<GrayPixel>(bitmap.GetWidth(), bitmap.GetHeight());
-	for (auto i = 0; i < bitmap.GetHeight(); ++i)
-		for (auto j = 0; j < bitmap.GetWidth(); ++j)
+	for (size_t i = 0; i < bitmap.GetHeight(); ++i)
+		for (size_t j = 0; j < bitmap.GetWidth(); ++j)
 		{
 			graymap(i, j) = FormatConverter::ToGrayPixel(bitmap(i, j), PGM_DEFAULT_MAX_GRAY_VALUE);
 		}
@@ -44,8 +44,8 @@ shared_ptr<Image> PbmImage::ToPpm()
 PixelMap<RgbPixel> PbmImage::BitmapToColormap()
 {
 	auto colormap = PixelMap<RgbPixel>(bitmap.GetWidth(), bitmap.GetHeight());
-	for (auto i = 0; i < bitmap.GetHeight(); ++i)
-		for (auto j = 0; j < bitmap.GetWidth(); ++j)
+	for (size_t i = 0; i < bitmap.GetHeight(); ++i)
+		for (size_t j = 0; j < bitmap.GetWidth(); ++j)
 		{
 			colormap(i, j) = FormatConverter::ToRgbPixel(bitmap(i, j), PPM_DEFAULT_MAX_COLOR_VALUE);
 		}
