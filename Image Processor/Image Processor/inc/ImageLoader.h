@@ -34,8 +34,9 @@ template <typename T>
 PixelMap<T> ImageLoader::LoadPixelMap(int width, int height)
 {
 	auto pixels = PixelMap<T>(width, height);
-	for (auto i = 0; i < height; ++i)
-		for (auto j = 0; j < width; ++j)
-			sourceFile >> pixels(i, j);
+	for (auto& element : pixels)
+	{
+		sourceFile >> element;
+	}
 	return pixels;
 }

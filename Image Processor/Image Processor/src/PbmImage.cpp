@@ -19,35 +19,13 @@ shared_ptr<Image> PbmImage::ToPbm()
 shared_ptr<Image> PbmImage::ToPgm()
 {
 	ImageMeta newMeta = ImageMeta(PGM, PGM_DEFAULT_MAX_GRAY_VALUE);
-	auto newGraymap = BitmapToGraymap();
+	auto newGraymap = FormatConverter::ToGraymap(bitmap);
 	return make_shared<PgmImage>(newMeta, newGraymap);
-}
-
-PixelMap<GrayPixel> PbmImage::BitmapToGraymap()
-{
-	auto graymap = PixelMap<GrayPixel>(bitmap.GetWidth(), bitmap.GetHeight());
-	for (auto i = 0; i < bitmap.GetHeight(); ++i)
-		for (auto j = 0; j < bitmap.GetWidth(); ++j)
-		{
-			graymap(i, j) = FormatConverter::ToGrayPixel(bitmap(i, j), PGM_DEFAULT_MAX_GRAY_VALUE);
-		}
-	return graymap;
 }
 
 shared_ptr<Image> PbmImage::ToPpm()
 {
 	ImageMeta newMeta = ImageMeta(PPM, PPM_DEFAULT_MAX_COLOR_VALUE);
-	auto newColormap = BitmapToColormap();
+	auto newColormap = FormatConverter::ToColormap(bitmap);
 	return make_shared<PpmImage>(newMeta, newColormap);
-}
-
-PixelMap<RgbPixel> PbmImage::BitmapToColormap()
-{
-	auto colormap = PixelMap<RgbPixel>(bitmap.GetWidth(), bitmap.GetHeight());
-	for (auto i = 0; i < bitmap.GetHeight(); ++i)
-		for (auto j = 0; j < bitmap.GetWidth(); ++j)
-		{
-			colormap(i, j) = FormatConverter::ToRgbPixel(bitmap(i, j), PPM_DEFAULT_MAX_COLOR_VALUE);
-		}
-	return colormap;
 }

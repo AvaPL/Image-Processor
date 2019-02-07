@@ -20,7 +20,7 @@ public:
 	const vector<string>& GetComments() const { return meta.GetComments(); }
 	virtual int GetWidth() const = 0;
 	virtual int GetHeight() const = 0;
-	unsigned short GetMaxValue() { return meta.GetMaxValue(); }
+	unsigned short GetMaxValue() const { return meta.GetMaxValue(); }
 	virtual shared_ptr<Image> ToPbm() = 0;
 	virtual shared_ptr<Image> ToPgm() = 0;
 	virtual shared_ptr<Image> ToPpm() = 0;
