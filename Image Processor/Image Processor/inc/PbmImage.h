@@ -3,8 +3,6 @@
 #include "Image.h"
 #include "PixelMap.h"
 #include "BitPixel.h"
-#include "GrayPixel.h"
-#include "RgbPixel.h"
 
 using std::vector;
 using std::shared_ptr;
@@ -23,9 +21,5 @@ public:
 	shared_ptr<Image> ToPbm() override;
 	shared_ptr<Image> ToPgm() override;
 	shared_ptr<Image> ToPpm() override;
-
-private:
-	PixelMap<GrayPixel> BitmapToGraymap();
-	PixelMap<RgbPixel> BitmapToColormap();
 	
 };

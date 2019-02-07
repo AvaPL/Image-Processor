@@ -22,6 +22,7 @@ public:
 	PixelMap& operator =(const PixelMap&) = default;
 	PixelMap& operator =(PixelMap&& pixelMapToMove) noexcept;
 	PixelType& operator()(size_t row, size_t column) { return pixels.at(column).at(row); };
+	const PixelType& operator()(size_t row, size_t column) const { return pixels.at(column).at(row); }
 	size_t GetWidth() const { return pixels.size(); }
 	size_t GetHeight() const { return pixels.at(0).size(); }
 
