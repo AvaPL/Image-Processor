@@ -24,5 +24,14 @@ public:
 	virtual shared_ptr<Image> ToPbm() = 0;
 	virtual shared_ptr<Image> ToPgm() = 0;
 	virtual shared_ptr<Image> ToPpm() = 0;
-
+	virtual shared_ptr<Image> Negative() = 0;
+	virtual shared_ptr<Image> Tresholding(const unsigned short treshold) = 0;
+	virtual shared_ptr<Image> BlackTresholding(const unsigned short treshold) = 0;
+	virtual shared_ptr<Image> WhiteTresholding(const unsigned short treshold) = 0;
+	virtual shared_ptr<Image> GammaCorrection(double gamma) = 0;
+	virtual shared_ptr<Image> LevelChange(const unsigned short blackTreshold, const unsigned short whiteTreshold) = 0;
+	virtual shared_ptr<Image> Contouring() = 0;
+	virtual shared_ptr<Image> HorizontalBlur() = 0;
+	virtual shared_ptr<Image> VerticalBlur() = 0;
+	virtual shared_ptr<Image> HistogramStretching() = 0;
 };

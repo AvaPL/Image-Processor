@@ -6,7 +6,7 @@
 using std::make_shared;
 
 PpmImage::PpmImage(const ImageMeta& meta, PixelMap<RgbPixel> colormap) : Image(meta),
-                                                                             colormap(std::move(colormap))
+                                                                         colormap(std::move(colormap))
 {
 }
 
@@ -27,4 +27,70 @@ shared_ptr<Image> PpmImage::ToPgm()
 shared_ptr<Image> PpmImage::ToPpm()
 {
 	return std::make_shared<PpmImage>(*this);
+}
+
+//TODO: Implement missing operations.
+
+shared_ptr<Image> PpmImage::Negative()
+{
+	auto resultColormap = colormap;
+	for (auto& element : resultColormap)
+	{
+		element.red = GetMaxValue() - element.red;
+		element.green = GetMaxValue() - element.green;
+		element.blue = GetMaxValue() - element.blue;
+	}
+	return make_shared<PpmImage>(meta, resultColormap);
+}
+
+shared_ptr<Image> PpmImage::Tresholding(const unsigned short treshold)
+{
+	auto resultColormap = colormap;
+	for (auto& element : resultColormap)
+	{
+		element.red = element.red <= treshold ? 0 : GetMaxValue();
+		element.green = element.green <= treshold ? 0 : GetMaxValue();
+		element.blue = element.blue <= treshold ? 0 : GetMaxValue();
+	}
+	return make_shared<PpmImage>(meta, resultColormap);
+}
+
+shared_ptr<Image> PpmImage::BlackTresholding(const unsigned short treshold)
+{
+	return nullptr;
+}
+
+shared_ptr<Image> PpmImage::WhiteTresholding(const unsigned short treshold)
+{
+	return nullptr;
+}
+
+shared_ptr<Image> PpmImage::GammaCorrection(double gamma)
+{
+	return nullptr;
+}
+
+shared_ptr<Image> PpmImage::LevelChange(const unsigned short blackTreshold, const unsigned short whiteTreshold)
+{
+	return nullptr;
+}
+
+shared_ptr<Image> PpmImage::Contouring()
+{
+	return nullptr;
+}
+
+shared_ptr<Image> PpmImage::HorizontalBlur()
+{
+	return nullptr;
+}
+
+shared_ptr<Image> PpmImage::VerticalBlur()
+{
+	return nullptr;
+}
+
+shared_ptr<Image> PpmImage::HistogramStretching()
+{
+	return nullptr;
 }
