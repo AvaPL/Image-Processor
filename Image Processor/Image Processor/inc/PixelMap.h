@@ -35,8 +35,10 @@ public:
 		using reference = PixelType &;
 
 		PixelMapIterator(PixelMap& pixelMap, const int currentRow, const int currentColumn): pixelMap(pixelMap),
-		                                                                             currentRowIndex(currentRow),
-		                                                                             currentColumnIndex(currentColumn)
+		                                                                                     currentRowIndex(
+			                                                                                     currentRow),
+		                                                                                     currentColumnIndex(
+			                                                                                     currentColumn)
 		{
 		}
 
@@ -54,8 +56,6 @@ public:
 
 	PixelMapIterator begin() { return PixelMapIterator(*this, 0, 0); }
 	PixelMapIterator end();
-
-	//TODO: Add const_iterator.
 };
 
 template <typename PixelType>
