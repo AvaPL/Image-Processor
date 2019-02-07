@@ -6,8 +6,6 @@
 
 using std::vector;
 
-//TODO: Move converters to FormatConverter class.
-
 class PgmImage : public Image
 {
 	PixelMap<GrayPixel> graymap;

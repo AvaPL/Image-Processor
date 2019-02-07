@@ -5,9 +5,6 @@
 #include "BitPixel.h"
 
 using std::vector;
-using std::shared_ptr;
-
-//TODO: Move converters to FormatConverter class.
 
 class PbmImage : public Image
 {
