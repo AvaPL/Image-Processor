@@ -27,11 +27,11 @@ private:
 	void LoadMaxValue(ImageMeta& meta);
 	void LoadComments(ImageMeta& meta);
 	template <typename T>
-	PixelMap<T> LoadPixelMap(int width, int height);
+	PixelMap<T> LoadPixelMap(size_t width, size_t height);
 };
 
 template <typename T>
-PixelMap<T> ImageLoader::LoadPixelMap(int width, int height)
+PixelMap<T> ImageLoader::LoadPixelMap(size_t width, size_t height)
 {
 	auto pixels = PixelMap<T>(width, height);
 	for (auto& element : pixels)

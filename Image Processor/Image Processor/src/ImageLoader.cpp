@@ -33,31 +33,31 @@ shared_ptr<Image> ImageLoader::LoadByFormat()
 	}
 }
 
-shared_ptr<PbmImage> ImageLoader::LoadPbm() //TODO: Make shorter after split.
+shared_ptr<PbmImage> ImageLoader::LoadPbm()
 {
 	auto meta = ImageMeta(PBM);
 	LoadComments(meta);
-	int width, height;
+	size_t width, height;
 	sourceFile >> width >> height;
 	auto pixels = LoadPixelMap<BitPixel>(width, height);
 	return make_shared<PbmImage>(meta, pixels);
 }
-shared_ptr<PgmImage> ImageLoader::LoadPgm() //TODO: Make shorter after split.
+shared_ptr<PgmImage> ImageLoader::LoadPgm()
 {
 	auto meta = ImageMeta(PGM);
 	LoadComments(meta);
-	int width, height;
+	size_t width, height;
 	sourceFile >> width >> height;
 	LoadMaxValue(meta);
 	auto pixels = LoadPixelMap<GrayPixel>(width, height);
 	return make_shared<PgmImage>(meta, pixels);
 }
 
-shared_ptr<PpmImage> ImageLoader::LoadPpm() //TODO: Make shorter after split.
+shared_ptr<PpmImage> ImageLoader::LoadPpm()
 {
 	auto meta = ImageMeta(PPM);
 	LoadComments(meta);	
-	int width, height;
+	size_t width, height;
 	sourceFile >> width >> height;
 	LoadMaxValue(meta);
 	auto pixels = LoadPixelMap<RgbPixel>(width, height);
