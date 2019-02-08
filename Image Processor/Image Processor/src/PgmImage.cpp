@@ -2,6 +2,7 @@
 #include "../inc/PbmImage.h"
 #include "../inc/PpmImage.h"
 #include "../inc/FormatConverter.h"
+#include "../inc/Filterer.h"
 
 using std::make_shared;
 
@@ -34,9 +35,10 @@ shared_ptr<Image> PgmImage::ToPpm()
 shared_ptr<Image> PgmImage::Negative()
 {
 	auto resultGraymap = graymap;
+	Filterer filterer(GetMaxValue());
 	for (auto& element : resultGraymap)
 	{
-		element.value = GetMaxValue() - element.value;
+		element.value = static_cast<unsigned short>(filterer.Negative(element.value));
 	}
 	return make_shared<PgmImage>(meta, resultGraymap);
 }
@@ -44,31 +46,55 @@ shared_ptr<Image> PgmImage::Negative()
 shared_ptr<Image> PgmImage::Tresholding(const unsigned short treshold)
 {
 	auto resultGraymap = graymap;
+	Filterer filterer(GetMaxValue());
 	for (auto& element : resultGraymap)
 	{
-		element.value = element.value <= treshold ? 0 : GetMaxValue();
+		element.value = static_cast<unsigned short>(filterer.Tresholding(element.value, treshold));
 	}
 	return make_shared<PgmImage>(meta, resultGraymap);
 }
 
 shared_ptr<Image> PgmImage::BlackTresholding(const unsigned short treshold)
 {
-	return nullptr;
+	auto resultGraymap = graymap;
+	for (auto& element : resultGraymap)
+	{
+		element.value = static_cast<unsigned short>(Filterer::BlackTresholding(element.value, treshold));
+	}
+	return make_shared<PgmImage>(meta, resultGraymap);
 }
 
 shared_ptr<Image> PgmImage::WhiteTresholding(const unsigned short treshold)
 {
-	return nullptr;
+	auto resultGraymap = graymap;
+	Filterer filterer(GetMaxValue());
+	for (auto& element : resultGraymap)
+	{
+		element.value = static_cast<unsigned short>(filterer.WhiteTresholding(element.value, treshold));
+	}
+	return make_shared<PgmImage>(meta, resultGraymap);
 }
 
-shared_ptr<Image> PgmImage::GammaCorrection(double gamma)
+shared_ptr<Image> PgmImage::GammaCorrection(const double gamma)
 {
-	return nullptr;
+	auto resultGraymap = graymap;
+	Filterer filterer(GetMaxValue());
+	for (auto& element : resultGraymap)
+	{
+		element.value = static_cast<unsigned short>(filterer.GammaCorrection(element.value, gamma));
+	}
+	return make_shared<PgmImage>(meta, resultGraymap);
 }
 
 shared_ptr<Image> PgmImage::LevelChange(const unsigned short blackTreshold, const unsigned short whiteTreshold)
 {
-	return nullptr;
+	auto resultGraymap = graymap;
+	Filterer filterer(GetMaxValue());
+	for (auto& element : resultGraymap)
+	{
+		element.value = static_cast<unsigned short>(filterer.LevelChange(element.value, blackTreshold, whiteTreshold));
+	}
+	return make_shared<PgmImage>(meta, resultGraymap);
 }
 
 shared_ptr<Image> PgmImage::Contouring()

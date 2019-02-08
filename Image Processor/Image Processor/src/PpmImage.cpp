@@ -2,6 +2,7 @@
 #include "../inc/PbmImage.h"
 #include "../inc/PgmImage.h"
 #include "../inc/FormatConverter.h"
+#include "../inc/Filterer.h"
 
 using std::make_shared;
 
@@ -34,11 +35,12 @@ shared_ptr<Image> PpmImage::ToPpm()
 shared_ptr<Image> PpmImage::Negative()
 {
 	auto resultColormap = colormap;
+	Filterer filterer(GetMaxValue());
 	for (auto& element : resultColormap)
 	{
-		element.red = GetMaxValue() - element.red;
-		element.green = GetMaxValue() - element.green;
-		element.blue = GetMaxValue() - element.blue;
+		element.red = static_cast<unsigned short>(filterer.Negative(element.red));
+		element.green = static_cast<unsigned short>(filterer.Negative(element.green));
+		element.blue = static_cast<unsigned short>(filterer.Negative(element.blue));
 	}
 	return make_shared<PpmImage>(meta, resultColormap);
 }
@@ -46,33 +48,65 @@ shared_ptr<Image> PpmImage::Negative()
 shared_ptr<Image> PpmImage::Tresholding(const unsigned short treshold)
 {
 	auto resultColormap = colormap;
+	Filterer filterer(GetMaxValue());
 	for (auto& element : resultColormap)
 	{
-		element.red = element.red <= treshold ? 0 : GetMaxValue();
-		element.green = element.green <= treshold ? 0 : GetMaxValue();
-		element.blue = element.blue <= treshold ? 0 : GetMaxValue();
+		element.red = static_cast<unsigned short>(filterer.Tresholding(element.red, treshold));
+		element.green = static_cast<unsigned short>(filterer.Tresholding(element.green, treshold));
+		element.blue = static_cast<unsigned short>(filterer.Tresholding(element.blue, treshold));
 	}
 	return make_shared<PpmImage>(meta, resultColormap);
 }
 
 shared_ptr<Image> PpmImage::BlackTresholding(const unsigned short treshold)
 {
-	return nullptr;
+	auto resultColormap = colormap;
+	for (auto& element : resultColormap)
+	{
+		element.red = static_cast<unsigned short>(Filterer::BlackTresholding(element.red, treshold));
+		element.green = static_cast<unsigned short>(Filterer::BlackTresholding(element.green, treshold));
+		element.blue = static_cast<unsigned short>(Filterer::BlackTresholding(element.blue, treshold));
+	}
+	return make_shared<PpmImage>(meta, resultColormap);
 }
 
 shared_ptr<Image> PpmImage::WhiteTresholding(const unsigned short treshold)
 {
-	return nullptr;
+	auto resultColormap = colormap;
+	Filterer filterer(GetMaxValue());
+	for (auto& element : resultColormap)
+	{
+		element.red = static_cast<unsigned short>(filterer.WhiteTresholding(element.red, treshold));
+		element.green = static_cast<unsigned short>(filterer.WhiteTresholding(element.green, treshold));
+		element.blue = static_cast<unsigned short>(filterer.WhiteTresholding(element.blue, treshold));
+	}
+	return make_shared<PpmImage>(meta, resultColormap);
 }
 
-shared_ptr<Image> PpmImage::GammaCorrection(double gamma)
+shared_ptr<Image> PpmImage::GammaCorrection(const double gamma)
 {
-	return nullptr;
+	auto resultColormap = colormap;
+	Filterer filterer(GetMaxValue());
+	for (auto& element : resultColormap)
+	{
+		element.red = static_cast<unsigned short>(filterer.GammaCorrection(element.red, gamma));
+		element.green = static_cast<unsigned short>(filterer.GammaCorrection(element.green, gamma));
+		element.blue = static_cast<unsigned short>(filterer.GammaCorrection(element.blue, gamma));
+	}
+	return make_shared<PpmImage>(meta, resultColormap);
 }
 
 shared_ptr<Image> PpmImage::LevelChange(const unsigned short blackTreshold, const unsigned short whiteTreshold)
 {
-	return nullptr;
+	auto resultColormap = colormap;
+	Filterer filterer(GetMaxValue());
+	for (auto& element : resultColormap)
+	{
+		element.red = static_cast<unsigned short>(filterer.LevelChange(element.red, blackTreshold, whiteTreshold));
+		element.green = static_cast<unsigned short>(filterer.LevelChange(element.green, blackTreshold, whiteTreshold));
+		element.blue = static_cast<unsigned short>(filterer.LevelChange(element.blue, blackTreshold, whiteTreshold));
+	}
+	return make_shared<PpmImage>(meta, resultColormap);
 }
 
 shared_ptr<Image> PpmImage::Contouring()

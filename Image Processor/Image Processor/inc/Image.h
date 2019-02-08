@@ -28,7 +28,7 @@ public:
 	virtual shared_ptr<Image> Tresholding(const unsigned short treshold) = 0;
 	virtual shared_ptr<Image> BlackTresholding(const unsigned short treshold) = 0;
 	virtual shared_ptr<Image> WhiteTresholding(const unsigned short treshold) = 0;
-	virtual shared_ptr<Image> GammaCorrection(double gamma) = 0;
+	virtual shared_ptr<Image> GammaCorrection(const double gamma) = 0;
 	virtual shared_ptr<Image> LevelChange(const unsigned short blackTreshold, const unsigned short whiteTreshold) = 0;
 	virtual shared_ptr<Image> Contouring() = 0;
 	virtual shared_ptr<Image> HorizontalBlur() = 0;

@@ -50,22 +50,26 @@ shared_ptr<Image> PbmImage::Tresholding(const unsigned short treshold)
 
 shared_ptr<Image> PbmImage::BlackTresholding(const unsigned short treshold)
 {
-	return nullptr;
+	//Unsupported.
+	return make_shared<PbmImage>(*this);
 }
 
 shared_ptr<Image> PbmImage::WhiteTresholding(const unsigned short treshold)
 {
-	return nullptr;
+	//Unsupported.
+	return make_shared<PbmImage>(*this);
 }
 
-shared_ptr<Image> PbmImage::GammaCorrection(double gamma)
+shared_ptr<Image> PbmImage::GammaCorrection(const double gamma)
 {
-	return nullptr;
+	//Unsupported.
+	return make_shared<PbmImage>(*this);
 }
 
 shared_ptr<Image> PbmImage::LevelChange(const unsigned short blackTreshold, const unsigned short whiteTreshold)
 {
-	return nullptr;
+	//Unsupported.
+	return make_shared<PbmImage>(*this);
 }
 
 shared_ptr<Image> PbmImage::Contouring()
