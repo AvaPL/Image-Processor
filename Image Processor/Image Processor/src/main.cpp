@@ -6,13 +6,13 @@ int main(int argc, char* argv[])
 {
 	using std::string;
 
-	string sourceFilename = "../Example Images/kubus.ppm";
+	string sourceFilename = "../Example Images/test.pgm";
 	string targetFilename;
 
 	ImageLoader loader;
 	auto image = loader.Load(sourceFilename);
 
-	image = image->LevelChange(64, 192);
+	image = image->HistogramStretching();
 
 	ImageSaver saver;
 	auto image1 = image->ToPbm();

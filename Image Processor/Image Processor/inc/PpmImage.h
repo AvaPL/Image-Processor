@@ -28,4 +28,12 @@ public:
 	shared_ptr<Image> HorizontalBlur() override;
 	shared_ptr<Image> VerticalBlur() override;
 	shared_ptr<Image> HistogramStretching() override;
+
+private:
+	unsigned short FindMinExistingRedValue();
+	unsigned short FindMaxExistingRedValue();
+	unsigned short FindMinExistingGreenValue();
+	unsigned short FindMaxExistingGreenValue();
+	unsigned short FindMinExistingBlueValue();
+	unsigned short FindMaxExistingBlueValue();
 };

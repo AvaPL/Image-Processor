@@ -34,3 +34,29 @@ size_t Filterer::LevelChange(const size_t value, const size_t blackTreshold, con
 	else result = (value - blackTreshold) * maxValue / (whiteTreshold - blackTreshold);
 	return result;
 }
+
+size_t Filterer::Contouring(const size_t value, const size_t valueBelow, const size_t valueToTheRight)
+{
+	return static_cast<size_t>(abs(static_cast<long long>(valueBelow) - value) + abs(
+		static_cast<long long>(valueToTheRight) - value));
+}
+
+size_t Filterer::HorizontalBlur(const size_t valueToTheLeft, const size_t value, const size_t valueToTheRight)
+{
+	return (valueToTheLeft + value + valueToTheRight) / 3;
+}
+
+size_t Filterer::VerticalBlur(const size_t valueAbove, const size_t value, const size_t valueBelow)
+{
+	return (valueAbove + value + valueBelow) / 3;
+}
+
+size_t Filterer::HistogramStretching(const size_t value, const size_t existingMinValue, const size_t existingMaxValue) const
+{
+	size_t result;
+	if (existingMinValue != existingMaxValue)
+		result = (value - existingMinValue) * maxValue / (existingMaxValue - existingMinValue);
+	else
+		result = value;
+	return result;
+}

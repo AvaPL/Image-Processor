@@ -30,8 +30,6 @@ shared_ptr<Image> PgmImage::ToPpm()
 	return make_shared<PpmImage>(newMeta, newColormap);
 }
 
-//TODO: Implement missing operations.
-
 shared_ptr<Image> PgmImage::Negative()
 {
 	auto resultGraymap = graymap;
@@ -99,20 +97,73 @@ shared_ptr<Image> PgmImage::LevelChange(const unsigned short blackTreshold, cons
 
 shared_ptr<Image> PgmImage::Contouring()
 {
-	return nullptr;
+	auto resultGraymap = graymap;
+	for (size_t j = 0; j < graymap.GetWidth(); ++j)
+		for (size_t i = 0; i < graymap.GetHeight(); ++i)
+		{
+			if (graymap.IsIndexCorrect(i + 1, j) && graymap.IsIndexCorrect(i, j + 1))
+				resultGraymap(i, j).value = static_cast<unsigned short>(Filterer::Contouring(
+					graymap(i, j).value, graymap(i + 1, j).value, graymap(i, j + 1).value));
+		}
+	return make_shared<PgmImage>(meta, resultGraymap);
 }
 
 shared_ptr<Image> PgmImage::HorizontalBlur()
 {
-	return nullptr;
+	auto resultGraymap = graymap;
+	for (size_t j = 0; j < graymap.GetWidth(); ++j)
+		for (size_t i = 0; i < graymap.GetHeight(); ++i)
+		{
+			if (graymap.IsIndexCorrect(i, j - 1) && graymap.IsIndexCorrect(i, j + 1))
+				resultGraymap(i, j).value = static_cast<unsigned short>(Filterer::HorizontalBlur(
+					graymap(i, j - 1).value, graymap(i, j).value, graymap(i, j + 1).value));
+		}
+	return make_shared<PgmImage>(meta, resultGraymap);
 }
 
 shared_ptr<Image> PgmImage::VerticalBlur()
 {
-	return nullptr;
+	auto resultGraymap = graymap;
+	for (size_t j = 0; j < graymap.GetWidth(); ++j)
+		for (size_t i = 0; i < graymap.GetHeight(); ++i)
+		{
+			if (graymap.IsIndexCorrect(i - 1, j) && graymap.IsIndexCorrect(i + 1, j))
+				resultGraymap(i, j).value = static_cast<unsigned short>(Filterer::VerticalBlur(
+					graymap(i - 1, j).value, graymap(i, j).value, graymap(i + 1, j).value));
+		}
+	return make_shared<PgmImage>(meta, resultGraymap);
 }
 
 shared_ptr<Image> PgmImage::HistogramStretching()
 {
-	return nullptr;
+	auto resultGraymap = graymap;
+	const auto existingMinPixel = FindMinExistingValue();
+	const auto existingMaxPixel = FindMaxExistingValue();
+	Filterer filterer(GetMaxValue());
+	for (auto& element : resultGraymap)
+	{
+		element.value = static_cast<unsigned short>(filterer.HistogramStretching(
+			element.value, existingMinPixel, existingMaxPixel));
+	}
+	return make_shared<PgmImage>(meta, resultGraymap);
+}
+
+unsigned short PgmImage::FindMinExistingValue()
+{
+	unsigned short minimum = GetMaxValue();
+	for (const auto& element : graymap)
+	{
+		if (element.value < minimum) minimum = element.value;
+	}
+	return minimum;
+}
+
+unsigned short PgmImage::FindMaxExistingValue()
+{
+	unsigned short maximum = 0;
+	for (const auto& element : graymap)
+	{
+		if (element.value > maximum) maximum = element.value;
+	}
+	return maximum;
 }

@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../inc/RgbPixel.h"
 
 std::ostream& operator <<(std::ostream& output, const RgbPixel& pixel)
