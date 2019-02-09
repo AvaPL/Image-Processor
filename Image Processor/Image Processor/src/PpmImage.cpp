@@ -2,7 +2,6 @@
 #include "../inc/PbmImage.h"
 #include "../inc/PgmImage.h"
 #include "../inc/FormatConverter.h"
-#include "../inc/Filterer.h"
 
 using std::make_shared;
 
@@ -34,11 +33,10 @@ shared_ptr<Image> PpmImage::Negative()
 {
 	auto resultColormap = colormap;
 	Filterer filterer(GetMaxValue());
-	for (auto& element : resultColormap)
+	for (auto& rgbPixel : resultColormap)
 	{
-		element.red = static_cast<unsigned short>(filterer.Negative(element.red));
-		element.green = static_cast<unsigned short>(filterer.Negative(element.green));
-		element.blue = static_cast<unsigned short>(filterer.Negative(element.blue));
+		for (auto& channel : rgbPixel)
+			channel = static_cast<unsigned short>(filterer.Negative(channel));
 	}
 	return make_shared<PpmImage>(meta, resultColormap);
 }
@@ -47,11 +45,10 @@ shared_ptr<Image> PpmImage::Tresholding(const unsigned short treshold)
 {
 	auto resultColormap = colormap;
 	Filterer filterer(GetMaxValue());
-	for (auto& element : resultColormap)
+	for (auto& rgbPixel : resultColormap)
 	{
-		element.red = static_cast<unsigned short>(filterer.Tresholding(element.red, treshold));
-		element.green = static_cast<unsigned short>(filterer.Tresholding(element.green, treshold));
-		element.blue = static_cast<unsigned short>(filterer.Tresholding(element.blue, treshold));
+		for (auto& channel : rgbPixel)
+			channel = static_cast<unsigned short>(filterer.Tresholding(channel, treshold));
 	}
 	return make_shared<PpmImage>(meta, resultColormap);
 }
@@ -59,11 +56,10 @@ shared_ptr<Image> PpmImage::Tresholding(const unsigned short treshold)
 shared_ptr<Image> PpmImage::BlackTresholding(const unsigned short treshold)
 {
 	auto resultColormap = colormap;
-	for (auto& element : resultColormap)
+	for (auto& rgbPixel : resultColormap)
 	{
-		element.red = static_cast<unsigned short>(Filterer::BlackTresholding(element.red, treshold));
-		element.green = static_cast<unsigned short>(Filterer::BlackTresholding(element.green, treshold));
-		element.blue = static_cast<unsigned short>(Filterer::BlackTresholding(element.blue, treshold));
+		for (auto& channel : rgbPixel)
+			channel = static_cast<unsigned short>(Filterer::BlackTresholding(channel, treshold));
 	}
 	return make_shared<PpmImage>(meta, resultColormap);
 }
@@ -72,11 +68,10 @@ shared_ptr<Image> PpmImage::WhiteTresholding(const unsigned short treshold)
 {
 	auto resultColormap = colormap;
 	Filterer filterer(GetMaxValue());
-	for (auto& element : resultColormap)
+	for (auto& rgbPixel : resultColormap)
 	{
-		element.red = static_cast<unsigned short>(filterer.WhiteTresholding(element.red, treshold));
-		element.green = static_cast<unsigned short>(filterer.WhiteTresholding(element.green, treshold));
-		element.blue = static_cast<unsigned short>(filterer.WhiteTresholding(element.blue, treshold));
+		for (auto& channel : rgbPixel)
+			channel = static_cast<unsigned short>(filterer.WhiteTresholding(channel, treshold));
 	}
 	return make_shared<PpmImage>(meta, resultColormap);
 }
@@ -85,11 +80,10 @@ shared_ptr<Image> PpmImage::GammaCorrection(const double gamma)
 {
 	auto resultColormap = colormap;
 	Filterer filterer(GetMaxValue());
-	for (auto& element : resultColormap)
+	for (auto& rgbPixel : resultColormap)
 	{
-		element.red = static_cast<unsigned short>(filterer.GammaCorrection(element.red, gamma));
-		element.green = static_cast<unsigned short>(filterer.GammaCorrection(element.green, gamma));
-		element.blue = static_cast<unsigned short>(filterer.GammaCorrection(element.blue, gamma));
+		for (auto& channel : rgbPixel)
+			channel = static_cast<unsigned short>(filterer.GammaCorrection(channel, gamma));
 	}
 	return make_shared<PpmImage>(meta, resultColormap);
 }
@@ -98,11 +92,10 @@ shared_ptr<Image> PpmImage::LevelChange(const unsigned short blackTreshold, cons
 {
 	auto resultColormap = colormap;
 	Filterer filterer(GetMaxValue());
-	for (auto& element : resultColormap)
+	for (auto& rgbPixel : resultColormap)
 	{
-		element.red = static_cast<unsigned short>(filterer.LevelChange(element.red, blackTreshold, whiteTreshold));
-		element.green = static_cast<unsigned short>(filterer.LevelChange(element.green, blackTreshold, whiteTreshold));
-		element.blue = static_cast<unsigned short>(filterer.LevelChange(element.blue, blackTreshold, whiteTreshold));
+		for (auto& channel : rgbPixel)
+			channel = static_cast<unsigned short>(filterer.LevelChange(channel, blackTreshold, whiteTreshold));
 	}
 	return make_shared<PpmImage>(meta, resultColormap);
 }
@@ -115,12 +108,7 @@ shared_ptr<Image> PpmImage::Contouring()
 		{
 			if (colormap.IsIndexCorrect(i + 1, j) && colormap.IsIndexCorrect(i, j + 1))
 			{
-				resultColormap(i, j).red = static_cast<unsigned short>(Filterer::Contouring(
-					colormap(i, j).red, colormap(i + 1, j).red, colormap(i, j + 1).red));
-				resultColormap(i, j).green = static_cast<unsigned short>(Filterer::Contouring(
-					colormap(i, j).green, colormap(i + 1, j).green, colormap(i, j + 1).green));
-				resultColormap(i, j).blue = static_cast<unsigned short>(Filterer::Contouring(
-					colormap(i, j).blue, colormap(i + 1, j).blue, colormap(i, j + 1).blue));
+				resultColormap(i, j) = ContourEveryChannel(colormap(i, j), colormap(i + 1, j), colormap(i, j + 1));
 			}
 		}
 	return make_shared<PpmImage>(meta, resultColormap);
@@ -134,12 +122,8 @@ shared_ptr<Image> PpmImage::HorizontalBlur()
 		{
 			if (colormap.IsIndexCorrect(i, j - 1) && colormap.IsIndexCorrect(i, j + 1))
 			{
-				resultColormap(i, j).red = static_cast<unsigned short>(Filterer::HorizontalBlur(
-					colormap(i, j - 1).red, colormap(i, j).red, colormap(i, j + 1).red));
-				resultColormap(i, j).green = static_cast<unsigned short>(Filterer::HorizontalBlur(
-					colormap(i, j - 1).green, colormap(i, j).green, colormap(i, j + 1).green));
-				resultColormap(i, j).blue = static_cast<unsigned short>(Filterer::HorizontalBlur(
-					colormap(i, j - 1).blue, colormap(i, j).blue, colormap(i, j + 1).blue));
+				resultColormap(i, j) = BlurEveryChannelHorizontaly(colormap(i, j - 1), colormap(i, j),
+				                                                   colormap(i, j + 1));
 			}
 		}
 	return make_shared<PpmImage>(meta, resultColormap);
@@ -153,12 +137,8 @@ shared_ptr<Image> PpmImage::VerticalBlur()
 		{
 			if (colormap.IsIndexCorrect(i - 1, j) && colormap.IsIndexCorrect(i + 1, j))
 			{
-				resultColormap(i, j).red = static_cast<unsigned short>(Filterer::HorizontalBlur(
-					colormap(i - 1, j).red, colormap(i, j).red, colormap(i + 1, j).red));
-				resultColormap(i, j).green = static_cast<unsigned short>(Filterer::HorizontalBlur(
-					colormap(i - 1, j).green, colormap(i, j).green, colormap(i + 1, j).green));
-				resultColormap(i, j).blue = static_cast<unsigned short>(Filterer::HorizontalBlur(
-					colormap(i - 1, j).blue, colormap(i, j).blue, colormap(i + 1, j).blue));
+				resultColormap(i, j) =
+					BlurEveryChannelVerticaly(colormap(i - 1, j), colormap(i, j), colormap(i + 1, j));
 			}
 		}
 	return make_shared<PpmImage>(meta, resultColormap);
@@ -167,81 +147,87 @@ shared_ptr<Image> PpmImage::VerticalBlur()
 shared_ptr<Image> PpmImage::HistogramStretching()
 {
 	auto resultColormap = colormap;
-	const auto existingMinRedPixel = FindMinExistingRedValue();
-	const auto existingMaxRedPixel = FindMaxExistingRedValue();
-	const auto existingMinGreenPixel = FindMinExistingGreenValue();
-	const auto existingMaxGreenPixel = FindMaxExistingGreenValue();
-	const auto existingMinBluePixel = FindMinExistingBlueValue();
-	const auto existingMaxBluePixel = FindMaxExistingBlueValue();
-	Filterer filterer(GetMaxValue());
+	const auto minExistingValues = FindMinExistingValues();
+	const auto maxExistingValues = FindMaxExistingValues();
+	const Filterer filterer(GetMaxValue());
 	for (auto& element : resultColormap)
 	{
-		element.red = static_cast<unsigned short>(filterer.HistogramStretching(
-			element.red, existingMinRedPixel, existingMaxRedPixel));
-		element.green = static_cast<unsigned short>(filterer.HistogramStretching(
-			element.green, existingMinGreenPixel, existingMaxGreenPixel));
-		element.blue = static_cast<unsigned short>(filterer.HistogramStretching(
-			element.blue, existingMinBluePixel, existingMaxBluePixel));
+		element = StretchEveryChannelsHistogram(filterer, element, minExistingValues, maxExistingValues);
 	}
 	return make_shared<PpmImage>(meta, resultColormap);
 }
 
-unsigned short PpmImage::FindMinExistingRedValue()
+RgbPixel PpmImage::ContourEveryChannel(const RgbPixel& pixel, const RgbPixel& pixelBelow,
+                                       const RgbPixel& pixelToTheRight)
 {
-	unsigned short minimum = GetMaxValue();
-	for (const auto& element : colormap)
-	{
-		if (element.red < minimum) minimum = element.red;
-	}
-	return minimum;
+	RgbPixel result;
+	result.red = static_cast<unsigned short>(Filterer::Contouring(pixel.red, pixelBelow.red, pixelToTheRight.red));
+	result.green = static_cast<unsigned short>(Filterer::Contouring(pixel.green, pixelBelow.green,
+	                                                                pixelToTheRight.green));
+	result.blue = static_cast<unsigned short>(Filterer::Contouring(pixel.blue, pixelBelow.blue, pixelToTheRight.blue));
+	return result;
 }
 
-unsigned short PpmImage::FindMaxExistingRedValue()
+RgbPixel PpmImage::BlurEveryChannelHorizontaly(const RgbPixel& pixelToTheLeft, const RgbPixel& pixel,
+                                               const RgbPixel& pixelToTheRight)
 {
-	unsigned short maximum = 0;
-	for (const auto& element : colormap)
-	{
-		if (element.red > maximum) maximum = element.red;
-	}
-	return maximum;
+	RgbPixel result;
+	result.red = static_cast<unsigned short>(Filterer::HorizontalBlur(pixelToTheLeft.red, pixel.red,
+	                                                                  pixelToTheRight.red));
+	result.green = static_cast<unsigned short>(Filterer::HorizontalBlur(pixelToTheLeft.green, pixel.green,
+	                                                                    pixelToTheRight.green));
+	result.blue = static_cast<unsigned short>(Filterer::HorizontalBlur(pixelToTheLeft.blue, pixel.blue,
+	                                                                   pixelToTheRight.blue));
+	return result;
 }
 
-unsigned short PpmImage::FindMinExistingGreenValue()
+RgbPixel PpmImage::BlurEveryChannelVerticaly(const RgbPixel& pixelAbove, const RgbPixel& pixel,
+                                             const RgbPixel& pixelBelow)
 {
-	unsigned short minimum = GetMaxValue();
-	for (const auto& element : colormap)
-	{
-		if (element.green < minimum) minimum = element.green;
-	}
-	return minimum;
+	RgbPixel result;
+	result.red = static_cast<unsigned short>(Filterer::VerticalBlur(pixelAbove.red, pixel.red,
+	                                                                pixelBelow.red));
+	result.green = static_cast<unsigned short>(Filterer::VerticalBlur(pixelAbove.green, pixel.green,
+	                                                                  pixelBelow.green));
+	result.blue = static_cast<unsigned short>(Filterer::VerticalBlur(pixelAbove.blue, pixel.blue,
+	                                                                 pixelBelow.blue));
+	return result;
 }
 
-unsigned short PpmImage::FindMaxExistingGreenValue()
+RgbPixel PpmImage::StretchEveryChannelsHistogram(const Filterer& filterer, const RgbPixel& pixel,
+                                                 const RgbPixel& minExistingValues,
+                                                 const RgbPixel& maxExistingValues)
 {
-	unsigned short maximum = 0;
-	for (const auto& element : colormap)
-	{
-		if (element.green > maximum) maximum = element.green;
-	}
-	return maximum;
+	RgbPixel result;
+	result.red = static_cast<unsigned short>(filterer.HistogramStretching(pixel.red, minExistingValues.red,
+	                                                                      maxExistingValues.red));
+	result.green = static_cast<unsigned short>(filterer.HistogramStretching(pixel.green, minExistingValues.green,
+	                                                                        maxExistingValues.green));
+	result.blue = static_cast<unsigned short>(filterer.HistogramStretching(pixel.blue, minExistingValues.blue,
+	                                                                       maxExistingValues.blue));
+	return result;
 }
 
-unsigned short PpmImage::FindMinExistingBlueValue()
+RgbPixel PpmImage::FindMinExistingValues()
 {
-	unsigned short minimum = GetMaxValue();
+	RgbPixel minimumChannelValues(GetMaxValue(), GetMaxValue(), GetMaxValue());
 	for (const auto& element : colormap)
 	{
-		if (element.blue < minimum) minimum = element.blue;
+		if (element.red < minimumChannelValues.red) minimumChannelValues.red = element.red;
+		if (element.green < minimumChannelValues.green) minimumChannelValues.green = element.green;
+		if (element.blue < minimumChannelValues.blue) minimumChannelValues.blue = element.blue;
 	}
-	return minimum;
+	return minimumChannelValues;
 }
 
-unsigned short PpmImage::FindMaxExistingBlueValue()
+RgbPixel PpmImage::FindMaxExistingValues()
 {
-	unsigned short maximum = 0;
+	RgbPixel maximumChannelValues(0, 0, 0);
 	for (const auto& element : colormap)
 	{
-		if (element.blue > maximum) maximum = element.blue;
+		if (element.red > maximumChannelValues.red) maximumChannelValues.red = element.red;
+		if (element.green > maximumChannelValues.green) maximumChannelValues.green = element.green;
+		if (element.blue > maximumChannelValues.blue) maximumChannelValues.blue = element.blue;
 	}
-	return maximum;
+	return maximumChannelValues;
 }

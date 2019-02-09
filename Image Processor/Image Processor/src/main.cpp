@@ -6,7 +6,7 @@ int main(int argc, char* argv[])
 {
 	using std::string;
 
-	string sourceFilename = "../Example Images/test.pgm";
+	string sourceFilename = "../Example Images/small.ppm";
 	string targetFilename;
 
 	ImageLoader loader;
