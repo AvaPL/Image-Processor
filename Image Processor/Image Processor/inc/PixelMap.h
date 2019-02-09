@@ -23,6 +23,7 @@ public:
 	PixelMap& operator =(PixelMap&& pixelMapToMove) noexcept;
 	PixelType& operator()(size_t row, size_t column) { return pixels.at(column).at(row); };
 	const PixelType& operator()(size_t row, size_t column) const { return pixels.at(column).at(row); }
+	bool IsIndexCorrect(const size_t row, const size_t column) const;
 	size_t GetWidth() const { return pixels.size(); }
 	size_t GetHeight() const { return pixels.at(0).size(); }
 
@@ -64,6 +65,12 @@ PixelMap<PixelType>& PixelMap<PixelType>::operator=(PixelMap&& pixelMapToMove) n
 {
 	this->pixels = std::move(pixelMapToMove.pixels);
 	return *this;
+}
+
+template <typename PixelType>
+bool PixelMap<PixelType>::IsIndexCorrect(const size_t row, const size_t column) const
+{
+	return row >= 0 && row < GetHeight() && column >= 0 && column < GetWidth();
 }
 
 template <typename PixelType>

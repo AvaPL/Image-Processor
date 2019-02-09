@@ -31,10 +31,12 @@
     <ClCompile Include="src\PgmImage.cpp" />
     <ClCompile Include="src\PpmImage.cpp" />
     <ClCompile Include="src\RgbPixel.cpp" />
+    <ClCompile Include="src\Filterer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\BitPixel.h" />
     <ClInclude Include="inc\DefaultValues.h" />
+    <ClInclude Include="inc\Filterer.h" />
     <ClInclude Include="inc\Format.h" />
     <ClInclude Include="inc\GrayPixel.h" />
     <ClInclude Include="inc\Image.h" />
