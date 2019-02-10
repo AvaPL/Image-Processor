@@ -12,14 +12,14 @@ PpmImage::PpmImage(const ImageMeta& meta, PixelMap<RgbPixel> colormap) : Image(m
 
 shared_ptr<Image> PpmImage::ToPbm()
 {
-	ImageMeta newMeta = ImageMeta(PBM);
+	ImageMeta newMeta = ImageMeta(PBM, meta.GetComments());
 	auto newBitmap = FormatConverter::ToBitmap(colormap, GetMaxValue());
 	return make_shared<PbmImage>(newMeta, newBitmap);
 }
 
 shared_ptr<Image> PpmImage::ToPgm()
 {
-	ImageMeta newMeta = ImageMeta(PGM, meta.GetMaxValue());
+	ImageMeta newMeta = ImageMeta(PGM, meta.GetComments(), meta.GetMaxValue());
 	auto newGraymap = FormatConverter::ToGraymap(colormap);
 	return make_shared<PgmImage>(newMeta, newGraymap);
 }

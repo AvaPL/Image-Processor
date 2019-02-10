@@ -19,14 +19,14 @@ shared_ptr<Image> PbmImage::ToPbm()
 
 shared_ptr<Image> PbmImage::ToPgm()
 {
-	ImageMeta newMeta = ImageMeta(PGM, PGM_DEFAULT_MAX_GRAY_VALUE);
+	ImageMeta newMeta = ImageMeta(PGM, meta.GetComments(), PGM_DEFAULT_MAX_GRAY_VALUE);
 	auto newGraymap = FormatConverter::ToGraymap(bitmap);
 	return make_shared<PgmImage>(newMeta, newGraymap);
 }
 
 shared_ptr<Image> PbmImage::ToPpm()
 {
-	ImageMeta newMeta = ImageMeta(PPM, PPM_DEFAULT_MAX_COLOR_VALUE);
+	ImageMeta newMeta = ImageMeta(PPM, meta.GetComments(), PPM_DEFAULT_MAX_COLOR_VALUE);
 	auto newColormap = FormatConverter::ToColormap(bitmap);
 	return make_shared<PpmImage>(newMeta, newColormap);
 }

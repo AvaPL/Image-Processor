@@ -13,7 +13,7 @@ PgmImage::PgmImage(const ImageMeta& meta, PixelMap<GrayPixel> graymap): Image(me
 
 shared_ptr<Image> PgmImage::ToPbm()
 {
-	ImageMeta newMeta = ImageMeta(PBM);
+	ImageMeta newMeta = ImageMeta(PBM, meta.GetComments());
 	auto newBitmap = FormatConverter::ToBitmap(graymap, GetMaxValue());
 	return make_shared<PbmImage>(newMeta, newBitmap);
 }
@@ -25,7 +25,7 @@ shared_ptr<Image> PgmImage::ToPgm()
 
 shared_ptr<Image> PgmImage::ToPpm()
 {
-	ImageMeta newMeta = ImageMeta(PPM, meta.GetMaxValue());
+	ImageMeta newMeta = ImageMeta(PPM, meta.GetComments(), meta.GetMaxValue());
 	auto newColormap = FormatConverter::ToColormap(graymap);
 	return make_shared<PpmImage>(newMeta, newColormap);
 }
