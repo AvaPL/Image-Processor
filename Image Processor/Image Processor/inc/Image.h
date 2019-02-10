@@ -14,7 +14,7 @@ public:
 	{
 	}
 
-	virtual ~Image() = 0;
+	virtual ~Image() = default;
 
 	Format GetFormat() const { return meta.GetFormat(); }
 	const vector<string>& GetComments() const { return meta.GetComments(); }

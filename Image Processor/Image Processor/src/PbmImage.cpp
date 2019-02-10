@@ -4,6 +4,7 @@
 #include "../inc/DefaultValues.h"
 #include "../inc/FormatConverter.h"
 #include "../inc/Filterer.h"
+#include "../inc/UnsupportedOperation.h"
 
 using std::make_shared;
 
@@ -43,32 +44,27 @@ shared_ptr<Image> PbmImage::Negative()
 
 shared_ptr<Image> PbmImage::Tresholding(const unsigned short treshold)
 {
-	//Unsupported.
-	return make_shared<PbmImage>(*this);
+	throw UnsupportedOperation("Tresholding is not supported for PBM format.");
 }
 
 shared_ptr<Image> PbmImage::BlackTresholding(const unsigned short treshold)
 {
-	//Unsupported.
-	return make_shared<PbmImage>(*this);
+	throw UnsupportedOperation("BlackTresholding is not supported for PBM format.");
 }
 
 shared_ptr<Image> PbmImage::WhiteTresholding(const unsigned short treshold)
 {
-	//Unsupported.
-	return make_shared<PbmImage>(*this);
+	throw UnsupportedOperation("WhiteTresholding is not supported for PBM format.");
 }
 
 shared_ptr<Image> PbmImage::GammaCorrection(const double gamma)
 {
-	//Unsupported.
-	return make_shared<PbmImage>(*this);
+	throw UnsupportedOperation("GammaCorrection is not supported for PBM format.");
 }
 
 shared_ptr<Image> PbmImage::LevelChange(const unsigned short blackTreshold, const unsigned short whiteTreshold)
 {
-	//Unsupported.
-	return make_shared<PbmImage>(*this);
+	throw UnsupportedOperation("LevelChange is not supported for PBM format.");
 }
 
 shared_ptr<Image> PbmImage::Contouring()
@@ -86,18 +82,15 @@ shared_ptr<Image> PbmImage::Contouring()
 
 shared_ptr<Image> PbmImage::HorizontalBlur()
 {
-	//Unsupported.
-	return make_shared<PbmImage>(*this);
+	throw UnsupportedOperation("HorizontalBlur is not supported for PBM format.");
 }
 
 shared_ptr<Image> PbmImage::VerticalBlur()
 {
-	//Unsupported.
-	return make_shared<PbmImage>(*this);
+	throw UnsupportedOperation("VerticalBlur is not supported for PBM format.");
 }
 
 shared_ptr<Image> PbmImage::HistogramStretching()
 {
-	//Unsupported.
-	return make_shared<PbmImage>(*this);
+	throw UnsupportedOperation("HistogramStretching is not supported for PBM format.");
 }

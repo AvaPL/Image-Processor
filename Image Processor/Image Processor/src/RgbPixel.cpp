@@ -1,5 +1,7 @@
 #include "../inc/RgbPixel.h"
 #include <string>
+#include "../inc/WritingError.h"
+#include "../inc/ReadingError.h"
 
 RgbPixel::RgbPixelIterator& RgbPixel::RgbPixelIterator::operator++()
 {
@@ -53,10 +55,24 @@ RgbPixel::RgbPixelIterator RgbPixel::end()
 
 std::ostream& operator <<(std::ostream& output, const RgbPixel& pixel)
 {
-	return output << pixel.red << ' ' << pixel.green << ' ' << pixel.blue;
+	try
+	{
+		return output << pixel.red << ' ' << pixel.green << ' ' << pixel.blue;
+	}
+	catch (std::exception&)
+	{
+		throw WritingError("Error writing RgbPixel to output.");
+	}
 }
 
 std::istream& operator >>(std::istream& input, RgbPixel& pixel)
 {
-	return input >> pixel.red >> pixel.green >> pixel.blue;
+	try
+	{
+		return input >> pixel.red >> pixel.green >> pixel.blue;
+	}
+	catch (std::exception&)
+	{
+		throw ReadingError("Error reading RgbPixel from input.");
+	}
 }

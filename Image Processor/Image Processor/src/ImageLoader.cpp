@@ -1,4 +1,6 @@
 #include "../inc/ImageLoader.h"
+#include "../inc/UnrecognizedFormat.h"
+#include "../inc/ReadingError.h"
 
 using std::shared_ptr;
 using std::make_shared;
@@ -9,6 +11,22 @@ ImageLoader::ImageLoader()
 }
 
 shared_ptr<Image> ImageLoader::Load(const string& sourceFilename)
+{
+	try
+	{
+		return SafeLoad(sourceFilename);
+	}
+	catch (ReadingError&)
+	{
+		throw;
+	}
+	catch (std::exception&)
+	{
+		throw ReadingError("Error reading image from input.");
+	}
+}
+
+shared_ptr<Image> ImageLoader::SafeLoad(const string& sourceFilename)
 {
 	sourceFile.open(sourceFilename);
 	shared_ptr<Image> image = LoadByFormat();
@@ -27,10 +45,7 @@ shared_ptr<Image> ImageLoader::LoadByFormat()
 	else if (buffer == "P3")
 		return LoadPpm();
 	else
-	{
-		sourceFile.setstate(std::ios::badbit);
-		return nullptr;
-	}
+		throw UnrecognizedFormat("Unrecognized image format when loading.");
 }
 
 shared_ptr<PbmImage> ImageLoader::LoadPbm()
@@ -42,6 +57,7 @@ shared_ptr<PbmImage> ImageLoader::LoadPbm()
 	auto pixels = LoadPixelMap<BitPixel>(width, height);
 	return make_shared<PbmImage>(meta, pixels);
 }
+
 shared_ptr<PgmImage> ImageLoader::LoadPgm()
 {
 	auto meta = ImageMeta(PGM);
@@ -56,7 +72,7 @@ shared_ptr<PgmImage> ImageLoader::LoadPgm()
 shared_ptr<PpmImage> ImageLoader::LoadPpm()
 {
 	auto meta = ImageMeta(PPM);
-	LoadComments(meta);	
+	LoadComments(meta);
 	size_t width, height;
 	sourceFile >> width >> height;
 	LoadMaxValue(meta);

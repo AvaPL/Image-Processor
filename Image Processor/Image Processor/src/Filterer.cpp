@@ -1,5 +1,6 @@
 #include "../inc/Filterer.h"
 #include <cmath>
+#include "../inc/BadFilterArgument.h"
 
 size_t Filterer::Negative(const size_t value) const
 {
@@ -51,9 +52,11 @@ size_t Filterer::VerticalBlur(const size_t valueAbove, const size_t value, const
 	return (valueAbove + value + valueBelow) / 3;
 }
 
-size_t Filterer::HistogramStretching(const size_t value, const size_t existingMinValue, const size_t existingMaxValue) const
+size_t Filterer::HistogramStretching(const size_t value, const size_t existingMinValue,
+                                     const size_t existingMaxValue) const
 {
 	size_t result;
+	if (existingMinValue > existingMaxValue) throw BadFilterArgument("Minimum value greater than maximum value.");
 	if (existingMinValue != existingMaxValue)
 		result = (value - existingMinValue) * maxValue / (existingMaxValue - existingMinValue);
 	else

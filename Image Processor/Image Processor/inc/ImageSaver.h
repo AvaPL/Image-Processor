@@ -20,13 +20,10 @@ public:
 	ImageSaver();
 	void Save(shared_ptr<Image> imageToSave, const string& targetFilename);
 
-	static bool FileExists(const string& filename)
-	{
-		const std::ifstream file(filename);
-		return static_cast<bool>(file);
-	}
+	static bool FileExists(const string& filename);
 
 private:
+	void SafeSave(shared_ptr<Image> imageToSave, const string& targetFilename);
 	void SaveByFormat();
 	void SavePbm();
 	void SavePgm();

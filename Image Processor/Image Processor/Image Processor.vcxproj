@@ -22,7 +22,6 @@
     <ClCompile Include="src\BitPixel.cpp" />
     <ClCompile Include="src\FormatConverter.cpp" />
     <ClCompile Include="src\GrayPixel.cpp" />
-    <ClCompile Include="src\Image.cpp" />
     <ClCompile Include="src\ImageLoader.cpp" />
     <ClCompile Include="src\ImageMeta.cpp" />
     <ClCompile Include="src\ImageSaver.cpp" />
@@ -34,6 +33,7 @@
     <ClCompile Include="src\Filterer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\BadFilterArgument.h" />
     <ClInclude Include="inc\BitPixel.h" />
     <ClInclude Include="inc\DefaultValues.h" />
     <ClInclude Include="inc\Filterer.h" />
@@ -43,12 +43,17 @@
     <ClInclude Include="inc\FormatConverter.h" />
     <ClInclude Include="inc\ImageMeta.h" />
     <ClInclude Include="inc\ImageLoader.h" />
+    <ClInclude Include="inc\ImageProcessorException.h" />
     <ClInclude Include="inc\ImageSaver.h" />
     <ClInclude Include="inc\PbmImage.h" />
     <ClInclude Include="inc\PgmImage.h" />
     <ClInclude Include="inc\PixelMap.h" />
     <ClInclude Include="inc\PpmImage.h" />
+    <ClInclude Include="inc\ReadingError.h" />
     <ClInclude Include="inc\RgbPixel.h" />
+    <ClInclude Include="inc\UnrecognizedFormat.h" />
+    <ClInclude Include="inc\UnsupportedOperation.h" />
+    <ClInclude Include="inc\WritingError.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
