@@ -14,12 +14,21 @@ shared_ptr<Image> ImageLoader::Load(const string& sourceFilename)
 {
 	try
 	{
-		sourceFile.open(sourceFilename);
+		return SafeLoad(sourceFilename);
+	}
+	catch (ReadingError&)
+	{
+		throw;
 	}
 	catch (std::exception&)
 	{
-		throw ReadingError("Error opening image.");
+		throw ReadingError("Error reading image from input.");
 	}
+}
+
+shared_ptr<Image> ImageLoader::SafeLoad(const string& sourceFilename)
+{
+	sourceFile.open(sourceFilename);
 	shared_ptr<Image> image = LoadByFormat();
 	sourceFile.close();
 	return image;
@@ -28,25 +37,15 @@ shared_ptr<Image> ImageLoader::Load(const string& sourceFilename)
 shared_ptr<Image> ImageLoader::LoadByFormat()
 {
 	string buffer;
-	try
-	{
-		getline(sourceFile, buffer);
-		if (buffer == "P1")
-			return LoadPbm();
-		if (buffer == "P2")
-			return LoadPgm();
-		if (buffer == "P3")
-			return LoadPpm();
-	}
-	catch (ReadingError&)
-	{
-		throw;
-	}
-	catch (std::exception&)
-	{
-		throw ReadingError("Error reading image meta from input.");
-	}
-	throw UnrecognizedFormat("Unrecognized image format when loading.");
+	getline(sourceFile, buffer);
+	if (buffer == "P1")
+		return LoadPbm();
+	else if (buffer == "P2")
+		return LoadPgm();
+	else if (buffer == "P3")
+		return LoadPpm();
+	else
+		throw UnrecognizedFormat("Unrecognized image format when loading.");
 }
 
 shared_ptr<PbmImage> ImageLoader::LoadPbm()

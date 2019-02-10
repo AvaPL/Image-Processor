@@ -20,6 +20,7 @@ public:
 	shared_ptr<Image> Load(const string& sourceFilename);
 
 private:
+	shared_ptr<Image> SafeLoad(const string& sourceFilename);
 	shared_ptr<Image> LoadByFormat();
 	shared_ptr<PbmImage> LoadPbm();
 	shared_ptr<PgmImage> LoadPgm();

@@ -8,17 +8,22 @@ ImageSaver::ImageSaver()
 
 void ImageSaver::Save(shared_ptr<Image> imageToSave, const string& targetFilename)
 {
-	this->imageToSave = imageToSave;
 	try
 	{
-		targetFile.open(targetFilename);
-		SaveByFormat();
-		targetFile.close();
+		SafeSave(imageToSave, targetFilename);
 	}
 	catch (std::exception&)
 	{
 		throw WritingError("Error writing image to output.");
 	}
+}
+
+void ImageSaver::SafeSave(shared_ptr<Image> imageToSave, const string& targetFilename)
+{
+	this->imageToSave = imageToSave;
+	targetFile.open(targetFilename);
+	SaveByFormat();
+	targetFile.close();
 }
 
 void ImageSaver::SaveByFormat()
@@ -53,7 +58,8 @@ void ImageSaver::SavePgm()
 {
 	targetFile << "P2\n";
 	SaveComments();
-	targetFile << imageToSave->GetWidth() << ' ' << imageToSave->GetHeight() << "\n" << imageToSave->GetMaxValue() << "\n";
+	targetFile << imageToSave->GetWidth() << ' ' << imageToSave->GetHeight() << "\n" << imageToSave->GetMaxValue() <<
+		"\n";
 	SavePixels<PgmImage>();
 }
 
@@ -61,7 +67,8 @@ void ImageSaver::SavePpm()
 {
 	targetFile << "P3\n";
 	SaveComments();
-	targetFile << imageToSave->GetWidth() << ' ' << imageToSave->GetHeight() << "\n" << imageToSave->GetMaxValue() << "\n";
+	targetFile << imageToSave->GetWidth() << ' ' << imageToSave->GetHeight() << "\n" << imageToSave->GetMaxValue() <<
+		"\n";
 	SavePixels<PpmImage>();
 }
 
@@ -72,4 +79,10 @@ void ImageSaver::SaveComments()
 	{
 		targetFile << element << '\n';
 	}
+}
+
+bool ImageSaver::FileExists(const string& filename)
+{
+	const std::ifstream file(filename);
+	return static_cast<bool>(file);
 }
