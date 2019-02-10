@@ -1,4 +1,5 @@
 #include "../inc/ImageSaver.h"
+#include "../inc/WritingError.h"
 
 ImageSaver::ImageSaver()
 {
@@ -8,9 +9,16 @@ ImageSaver::ImageSaver()
 void ImageSaver::Save(shared_ptr<Image> imageToSave, const string& targetFilename)
 {
 	this->imageToSave = imageToSave;
-	targetFile.open(targetFilename);
-	SaveByFormat();
-	targetFile.close();
+	try
+	{
+		targetFile.open(targetFilename);
+		SaveByFormat();
+		targetFile.close();
+	}
+	catch (std::exception&)
+	{
+		throw WritingError("Error writing image to output.");
+	}
 }
 
 void ImageSaver::SaveByFormat()

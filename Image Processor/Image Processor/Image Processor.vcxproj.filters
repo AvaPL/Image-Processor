@@ -13,24 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\PixelTypes">
+      <UniqueIdentifier>{665d6d55-f745-4fc1-93c6-175bdb92a288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\ImageTypes">
+      <UniqueIdentifier>{4b2c6479-7c93-484e-8432-a3c8df8b24bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Converting">
+      <UniqueIdentifier>{7bb52f97-cd45-4238-9199-7d3661362a05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\ImageComponents">
+      <UniqueIdentifier>{afd186d9-5b13-4731-8853-fc9682f86dbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\ImageTypes">
+      <UniqueIdentifier>{e67b1ab7-3e54-4420-b05b-570d7f6495d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Converting">
+      <UniqueIdentifier>{9bba401b-81d4-4a37-8973-db29fb3c5dd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\ImageComponents">
+      <UniqueIdentifier>{59c02074-b3a6-413a-80e4-010b6866f13f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\PixelTypes">
+      <UniqueIdentifier>{dcb17bc8-5cda-4223-8a59-c1e5aa7b95b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Exceptions">
+      <UniqueIdentifier>{fda39c28-f42f-4376-a10a-3b1d0453b925}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PbmImage.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PgmImage.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PpmImage.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\RgbPixel.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Image.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="src\ImageLoader.cpp">
@@ -39,67 +51,97 @@
     <ClCompile Include="src\ImageSaver.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="src\BitPixel.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\PbmImage.cpp">
+      <Filter>Pliki źródłowe\ImageTypes</Filter>
     </ClCompile>
-    <ClCompile Include="src\GrayPixel.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\PgmImage.cpp">
+      <Filter>Pliki źródłowe\ImageTypes</Filter>
     </ClCompile>
-    <ClCompile Include="src\FormatConverter.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ImageMeta.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\PpmImage.cpp">
+      <Filter>Pliki źródłowe\ImageTypes</Filter>
     </ClCompile>
     <ClCompile Include="src\Filterer.cpp">
-      <Filter>Pliki źródłowe</Filter>
+      <Filter>Pliki źródłowe\Converting</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FormatConverter.cpp">
+      <Filter>Pliki źródłowe\Converting</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImageMeta.cpp">
+      <Filter>Pliki źródłowe\ImageComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BitPixel.cpp">
+      <Filter>Pliki źródłowe\PixelTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GrayPixel.cpp">
+      <Filter>Pliki źródłowe\PixelTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RgbPixel.cpp">
+      <Filter>Pliki źródłowe\PixelTypes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\PbmImage.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\PgmImage.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\PpmImage.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\RgbPixel.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\Image.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
     <ClInclude Include="inc\ImageLoader.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="inc\ImageSaver.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Format.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
     <ClInclude Include="inc\BitPixel.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\PixelTypes</Filter>
     </ClInclude>
     <ClInclude Include="inc\GrayPixel.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\PixelTypes</Filter>
     </ClInclude>
-    <ClInclude Include="inc\FormatConverter.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="inc\RgbPixel.h">
+      <Filter>Pliki nagłówkowe\PixelTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Image.h">
+      <Filter>Pliki nagłówkowe\ImageTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\PgmImage.h">
+      <Filter>Pliki nagłówkowe\ImageTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\PbmImage.h">
+      <Filter>Pliki nagłówkowe\ImageTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\PpmImage.h">
+      <Filter>Pliki nagłówkowe\ImageTypes</Filter>
     </ClInclude>
     <ClInclude Include="inc\DefaultValues.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\PixelMap.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\ImageMeta.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\Converting</Filter>
     </ClInclude>
     <ClInclude Include="inc\Filterer.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\Converting</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\FormatConverter.h">
+      <Filter>Pliki nagłówkowe\Converting</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Format.h">
+      <Filter>Pliki nagłówkowe\ImageComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\PixelMap.h">
+      <Filter>Pliki nagłówkowe\ImageComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ImageMeta.h">
+      <Filter>Pliki nagłówkowe\ImageComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\WritingError.h">
+      <Filter>Pliki nagłówkowe\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\UnsupportedOperation.h">
+      <Filter>Pliki nagłówkowe\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\UnrecognizedFormat.h">
+      <Filter>Pliki nagłówkowe\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ReadingError.h">
+      <Filter>Pliki nagłówkowe\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ImageProcessorException.h">
+      <Filter>Pliki nagłówkowe\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\BadFilterArgument.h">
+      <Filter>Pliki nagłówkowe\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

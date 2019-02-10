@@ -1,12 +1,27 @@
-#include <iostream>
 #include "../inc/BitPixel.h"
+#include "../inc/WritingError.h"
+#include "../inc/ReadingError.h"
 
 std::ostream& operator <<(std::ostream& output, const BitPixel& pixel)
 {
-	return output << pixel.isBlack;
+	try
+	{
+		return output << pixel.isBlack;
+	}
+	catch (std::exception&)
+	{
+		throw WritingError("Error writing BitPixel to output.");
+	}
 }
 
 std::istream& operator >>(std::istream& input, BitPixel& pixel)
 {
-	return input >> pixel.isBlack;
+	try
+	{
+		return input >> pixel.isBlack;
+	}
+	catch (std::exception&)
+	{
+		throw ReadingError("Error reading BitPixel from input.");
+	}
 }
