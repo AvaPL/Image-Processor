@@ -36,7 +36,7 @@ public:
 		using pointer = PixelType *;
 		using reference = PixelType &;
 
-		PixelMapIterator(PixelMap& pixelMap, const int currentRow, const int currentColumn): pixelMap(pixelMap),
+		PixelMapIterator(PixelMap& pixelMap, const size_t currentRow, const size_t currentColumn): pixelMap(pixelMap),
 		                                                                                     currentRowIndex(
 			                                                                                     currentRow),
 		                                                                                     currentColumnIndex(
@@ -46,8 +46,8 @@ public:
 
 		PixelMapIterator& operator++();
 		PixelMapIterator operator++(int);
-		reference operator*() { return pixelMap(currentRowIndex, currentColumnIndex); };
-		pointer operator->() { return &pixelMap(currentRowIndex, currentColumnIndex); };
+		reference operator*() { return pixelMap(currentRowIndex, currentColumnIndex); }
+		pointer operator->() { return &pixelMap(currentRowIndex, currentColumnIndex); }
 		bool operator==(const PixelMapIterator& otherIterator);
 		bool operator!=(const PixelMapIterator& otherIterator);
 	private:

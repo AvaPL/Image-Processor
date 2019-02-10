@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <utility>
 #include <vector>
 #include "Format.h"
 
@@ -13,7 +14,8 @@ class ImageMeta
 	unsigned short maxValue;
 
 public:
-	explicit ImageMeta(const Format format, const unsigned short maxValue = 0) : format(format), maxValue(maxValue)
+	explicit ImageMeta(const Format format, vector<string> comments = vector<string>(),
+	                   const unsigned short maxValue = 0) : format(format), comments(std::move(comments)), maxValue(maxValue)
 	{
 	}
 

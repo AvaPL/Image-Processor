@@ -3,6 +3,7 @@
 #include "Image.h"
 #include "PixelMap.h"
 #include "RgbPixel.h"
+#include "Filterer.h"
 
 using std::vector;
 
@@ -30,10 +31,14 @@ public:
 	shared_ptr<Image> HistogramStretching() override;
 
 private:
-	unsigned short FindMinExistingRedValue();
-	unsigned short FindMaxExistingRedValue();
-	unsigned short FindMinExistingGreenValue();
-	unsigned short FindMaxExistingGreenValue();
-	unsigned short FindMinExistingBlueValue();
-	unsigned short FindMaxExistingBlueValue();
+	static RgbPixel ContourEveryChannel(const RgbPixel& pixel, const RgbPixel& pixelBelow,
+	                                    const RgbPixel& pixelToTheRight);
+	static RgbPixel BlurEveryChannelHorizontaly(const RgbPixel& pixelToTheLeft, const RgbPixel& pixel,
+	                                            const RgbPixel& pixelToTheRight);
+	static RgbPixel BlurEveryChannelVerticaly(const RgbPixel& pixelAbove, const RgbPixel& pixel,
+	                                          const RgbPixel& pixelBelow);
+	static RgbPixel StretchEveryChannelsHistogram(const Filterer& filterer, const RgbPixel& pixel,
+	                                       const RgbPixel& minExistingValues, const RgbPixel& maxExistingValues);
+	RgbPixel FindMinExistingValues();
+	RgbPixel FindMaxExistingValues();
 };
